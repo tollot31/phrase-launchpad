@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#05070a">
+
+<title>PHRASE // M01</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 35%, #111820 0%, #080b0f 42%, #030405 100%);
+  color:#dbe8ee;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+
+body{
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+}
+
+#app{
+  height:100dvh;
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+  padding:
+    max(20px, env(safe-area-inset-top))
+    22px
+    max(18px, env(safe-area-inset-bottom));
+}
+
+/* HEADER */
+
+header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  height:62px;
+  border-bottom:1px solid rgba(180,225,240,.11);
+  padding-bottom:12px;
+}
+
+.brand{
+  letter-spacing:.22em;
+  font-size:12px;
+  font-weight:700;
+  color:#d9e6eb;
+}
+
+.brand span{
+  color:#6f8993;
+}
+
+.status{
+  display:flex;
+  gap:18px;
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size:10px;
+  letter-spacing:.08em;
+  color:#66808a;
+}
+
+.status strong{
+  color:#b9d7df;
+  font-weight:500;
+}
+
+/* CENTER */
+
+main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:30px;
+}
+
+.mode-label{
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size:10px;
+  letter-spacing:.3em;
+  color:#53666e;
+}
+
+/* PADS */
+
+.pads{
+  width:min(88vw, 430px);
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.pad{
+  position:relative;
+  aspect-ratio:1;
+  border:1px solid rgba(166,211,226,.16);
+  border-radius:15px;
+  overflow:hidden;
+
+  background:
+    linear-gradient(145deg,
+      rgba(35,44,50,.92),
+      rgba(10,14,17,.98));
+
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,.05),
+    inset 0 -10px 25px rgba(0,0,0,.34),
+    0 10px 30px rgba(0,0,0,.34);
+
+  transition:
+    transform .09s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
+}
+
+.pad::before{
+  content:"";
+  position:absolute;
+  inset:7px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.025);
+  background:
+    linear-gradient(145deg,
+      rgba(255,255,255,.018),
+      rgba(0,0,0,.12));
+}
+
+.pad:active{
+  transform:scale(.965);
+}
+
+.pad-light{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition:opacity .22s ease;
+  pointer-events:none;
+}
+
+.pad[data-type="pure"] .pad-light{
+  background:
+    radial-gradient(circle at 50% 55%,
+      rgba(0,235,255,.58),
+      rgba(0,190,255,.17) 45%,
+      transparent 72%);
+}
+
+.pad[data-type="pulse"] .pad-light{
+  background:
+    radial-gradient(circle at 50% 55%,
+      rgba(120,75,255,.70),
+      rgba(70,45,255,.19) 45%,
+      transparent 72%);
+}
+
+.pad[data-type="space"] .pad-light{
+  background:
+    radial-gradient(circle at 50% 55%,
+      rgba(255,40,180,.62),
+      rgba(185,20,150,.18) 45%,
+      transparent 72%);
+}
+
+.pad.playing .pad-light{
+  opacity:.8;
+}
+
+.pad.armed .pad-light{
+  opacity:.30;
+  animation:armedPulse .42s infinite alternate;
+}
+
+.pad.stopping .pad-light{
+  opacity:.3;
+  animation:stopPulse .7s infinite alternate;
+}
+
+.pad.playing{
+  border-color:rgba(140,235,255,.55);
+  box-shadow:
+    inset 0 0 22px rgba(40,220,255,.08),
+    0 0 28px rgba(0,200,255,.13),
+    0 10px 30px rgba(0,0,0,.45);
+}
+
+.pad[data-type="pulse"].playing{
+  border-color:rgba(155,120,255,.62);
+  box-shadow:
+    inset 0 0 22px rgba(110,70,255,.11),
+    0 0 30px rgba(90,60,255,.16),
+    0 10px 30px rgba(0,0,0,.45);
+}
+
+.pad[data-type="space"].playing{
+  border-color:rgba(255,100,205,.55);
+  box-shadow:
+    inset 0 0 22px rgba(255,60,190,.09),
+    0 0 30px rgba(255,40,180,.14),
+    0 10px 30px rgba(0,0,0,.45);
+}
+
+@keyframes armedPulse{
+  from{opacity:.12;}
+  to{opacity:.42;}
+}
+
+@keyframes stopPulse{
+  from{opacity:.30;}
+  to{opacity:.08;}
+}
+
+.pad-info{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  pointer-events:none;
+}
+
+.pad-code{
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size:9px;
+  letter-spacing:.16em;
+  color:#65767d;
+}
+
+.pad-name{
+  font-size:12px;
+  font-weight:650;
+  letter-spacing:.16em;
+}
+
+.pad-state{
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size:8px;
+  letter-spacing:.16em;
+  color:#62767e;
+}
+
+.pad.playing .pad-state{
+  color:#cceef5;
+}
+
+/* TRANSPORT */
+
+.transport{
+  width:min(88vw,430px);
+}
+
+.timeline{
+  height:2px;
+  background:#172026;
+  overflow:hidden;
+  margin-bottom:15px;
+}
+
+.timeline-fill{
+  width:0%;
+  height:100%;
+  background:#a8eaff;
+  box-shadow:0 0 9px rgba(120,230,255,.8);
+}
+
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr 1.4fr;
+  gap:8px;
+}
+
+button{
+  appearance:none;
+  -webkit-appearance:none;
+  border:1px solid rgba(180,220,230,.12);
+  border-radius:9px;
+  height:43px;
+  background:
+    linear-gradient(#161d21,#0b0f12);
+  color:#7f969e;
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size:10px;
+  letter-spacing:.12em;
+}
+
+button.selected{
+  border-color:rgba(115,220,245,.35);
+  color:#d8f5fb;
+  box-shadow:
+    inset 0 0 15px rgba(30,200,240,.07),
+    0 0 12px rgba(20,200,240,.05);
+}
+
+button:active{
+  transform:scale(.97);
+}
+
+/* START OVERLAY */
+
+#startOverlay{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at center,#111820,#030405 70%);
+}
+
+.start-box{
+  text-align:center;
+}
+
+.start-title{
+  font-size:15px;
+  letter-spacing:.35em;
+  font-weight:700;
+  margin-bottom:13px;
+}
+
+.start-sub{
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size:9px;
+  color:#657981;
+  letter-spacing:.13em;
+  margin-bottom:28px;
+}
+
+#startButton{
+  width:160px;
+  height:50px;
+  color:#dff9ff;
+  border-color:rgba(100,220,250,.30);
+}
+
+.hint{
+  margin-top:16px;
+  font-size:9px;
+  letter-spacing:.08em;
+  color:#42535a;
+}
+
+@media(max-width:380px){
+  #app{
+    padding-left:16px;
+    padding-right:16px;
+  }
+
+  .pads,
+  .transport{
+    width:92vw;
+  }
+
+  .pads{
+    gap:8px;
+  }
+
+  .pad-info{
+    padding:11px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<header>
+  <div class="brand">
+    PHRASE <span>// M01</span>
+  </div>
+
+  <div class="status">
+    <div>BAR <strong id="barDisplay">01:1</strong></div>
+    <div>ACTIVE <strong id="activeDisplay">0/3</strong></div>
+  </div>
+</header>
+
+<main>
+
+  <div class="mode-label">
+    MOTIF 01 // PROTOTYPE
+  </div>
+
+  <div class="pads">
+
+    <div class="pad" data-index="0" data-type="pure">
+      <div class="pad-light"></div>
+      <div class="pad-info">
+        <div class="pad-code">M01.A</div>
+        <div class="pad-name">PURE</div>
+        <div class="pad-state">OFF</div>
+      </div>
+    </div>
+
+    <div class="pad" data-index="1" data-type="pulse">
+      <div class="pad-light"></div>
+      <div class="pad-info">
+        <div class="pad-code">M01.B</div>
+        <div class="pad-name">PULSE</div>
+        <div class="pad-state">OFF</div>
+      </div>
+    </div>
+
+    <div class="pad" data-index="2" data-type="space">
+      <div class="pad-light"></div>
+      <div class="pad-info">
+        <div class="pad-code">M01.C</div>
+        <div class="pad-name">SPACE</div>
+        <div class="pad-state">OFF</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="transport">
+
+    <div class="timeline">
+      <div class="timeline-fill" id="timelineFill"></div>
+    </div>
+
+    <div class="controls">
+      <button id="bpm72" class="selected">72 BPM</button>
+      <button id="bpm144">144 BPM</button>
+      <button id="stopAll">STOP ALL</button>
+    </div>
+
+  </div>
+
+</main>
+
+</div>
+
+<div id="startOverlay">
+  <div class="start-box">
+    <div class="start-title">PHRASE // M01</div>
+    <div class="start-sub">ELECTRIC PHRASE ENGINE</div>
+    <button id="startButton">INITIALIZE</button>
+    <div class="hint">HEADPHONES RECOMMENDED</div>
+  </div>
+</div>
+
+<script>
+(() => {
+
+"use strict";
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+let ctx = null;
+
+let master;
+let compressor;
+let delay;
+let delayFeedback;
+let delayWet;
+let reverb;
+let reverbWet;
+
+let bpm = 72;
+let running = false;
+
+let startTime = 0;
+let nextStepTime = 0;
+let currentStep = 0;
+
+const STEPS_PER_BAR = 16;
+const TOTAL_BARS = 4;
+const TOTAL_STEPS = STEPS_PER_BAR * TOTAL_BARS;
+
+const LOOKAHEAD = 25;
+const SCHEDULE_AHEAD = 0.12;
+
+let schedulerTimer = null;
+
+const padStates = [
+  { state:"off" },
+  { state:"off" },
+  { state:"off" }
+];
+
+const pads = [...document.querySelectorAll(".pad")];
+
+const barDisplay = document.getElementById("barDisplay");
+const activeDisplay = document.getElementById("activeDisplay");
+const timelineFill = document.getElementById("timelineFill");
+
+const bpm72 = document.getElementById("bpm72");
+const bpm144 = document.getElementById("bpm144");
+
+/* =========================================================
+   MUSIC THEORY
+   D Dorian:
+   D E F G A B C
+========================================================= */
+
+const NOTE = {
+  D2:73.42,
+  E2:82.41,
+  F2:87.31,
+  G2:98.00,
+  A2:110.00,
+  B2:123.47,
+  C3:130.81,
+
+  D3:146.83,
+  E3:164.81,
+  F3:174.61,
+  G3:196.00,
+  A3:220.00,
+  B3:246.94,
+  C4:261.63,
+
+  D4:293.66,
+  E4:329.63,
+  F4:349.23,
+  G4:392.00,
+  A4:440.00,
+  B4:493.88,
+  C5:523.25,
+
+  D5:587.33,
+  E5:659.25,
+  F5:698.46,
+  G5:783.99,
+  A5:880.00
+};
+
+/* =========================================================
+   AUDIO INITIALIZATION
+========================================================= */
+
+function initAudio(){
+
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+  master = ctx.createGain();
+  master.gain.value = 0.72;
+
+  compressor = ctx.createDynamicsCompressor();
+  compressor.threshold.value = -12;
+  compressor.knee.value = 16;
+  compressor.ratio.value = 4;
+  compressor.attack.value = 0.005;
+  compressor.release.value = 0.22;
+
+  delay = ctx.createDelay(2);
+  delay.delayTime.value = 0.375;
+
+  delayFeedback = ctx.createGain();
+  delayFeedback.gain.value = 0.25;
+
+  delayWet = ctx.createGain();
+  delayWet.gain.value = 0.18;
+
+  delay.connect(delayFeedback);
+  delayFeedback.connect(delay);
+
+  delay.connect(delayWet);
+  delayWet.connect(master);
+
+  reverb = ctx.createConvolver();
+  reverb.buffer = makeImpulse(2.7, 2.8);
+
+  reverbWet = ctx.createGain();
+  reverbWet.gain.value = 0.17;
+
+  reverb.connect(reverbWet);
+  reverbWet.connect(master);
+
+  master.connect(compressor);
+  compressor.connect(ctx.destination);
+}
+
+/* =========================================================
+   IMPULSE REVERB
+========================================================= */
+
+function makeImpulse(duration, decay){
+
+  const rate = ctx.sampleRate;
+  const length = rate * duration;
+
+  const impulse = ctx.createBuffer(2,length,rate);
+
+  for(let c=0;c<2;c++){
+
+    const data = impulse.getChannelData(c);
+
+    for(let i=0;i<length;i++){
+
+      data[i] =
+        (Math.random()*2-1) *
+        Math.pow(1-i/length,decay);
+
+    }
+  }
+
+  return impulse;
+}
+
+/* =========================================================
+   ELECTRIC PIANO
+========================================================= */
+
+function electricPiano(freq,time,duration=0.75,velocity=.45,space=.12){
+
+  const out = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+
+  filter.type = "lowpass";
+  filter.frequency.setValueAtTime(4200,time);
+  filter.frequency.exponentialRampToValueAtTime(
+    1200,
+    time + Math.min(duration,.8)
+  );
+
+  out.gain.setValueAtTime(0.0001,time);
+  out.gain.exponentialRampToValueAtTime(
+    velocity,
+    time+.012
+  );
+
+  out.gain.exponentialRampToValueAtTime(
+    Math.max(.0001,velocity*.24),
+    time+.22
+  );
+
+  out.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+duration
+  );
+
+  /* Fundamental */
+
+  const fundamental = ctx.createOscillator();
+  fundamental.type = "sine";
+  fundamental.frequency.value = freq;
+
+  const fundamentalGain = ctx.createGain();
+  fundamentalGain.gain.value = .78;
+
+  fundamental.connect(fundamentalGain);
+  fundamentalGain.connect(filter);
+
+  /* Metallic tine */
+
+  const tine = ctx.createOscillator();
+  tine.type = "sine";
+  tine.frequency.value = freq * 3.01;
+
+  const tineGain = ctx.createGain();
+  tineGain.gain.setValueAtTime(velocity*.18,time);
+  tineGain.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+.20
+  );
+
+  tine.connect(tineGain);
+  tineGain.connect(filter);
+
+  /* Warm second partial */
+
+  const body = ctx.createOscillator();
+  body.type = "triangle";
+  body.frequency.value = freq * 2;
+
+  const bodyGain = ctx.createGain();
+  bodyGain.gain.value = .07;
+
+  body.connect(bodyGain);
+  bodyGain.connect(filter);
+
+  filter.connect(out);
+  out.connect(master);
+
+  const sendDelay = ctx.createGain();
+  sendDelay.gain.value = space;
+
+  const sendReverb = ctx.createGain();
+  sendReverb.gain.value = space*.72;
+
+  out.connect(sendDelay);
+  sendDelay.connect(delay);
+
+  out.connect(sendReverb);
+  sendReverb.connect(reverb);
+
+  fundamental.start(time);
+  tine.start(time);
+  body.start(time);
+
+  const stop = time+duration+.1;
+
+  fundamental.stop(stop);
+  tine.stop(stop);
+  body.stop(stop);
+}
+
+/* =========================================================
+   BASS
+========================================================= */
+
+function bass(freq,time,duration=.32,velocity=.22){
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  const filter = ctx.createBiquadFilter();
+
+  osc.type="triangle";
+  osc.frequency.setValueAtTime(freq,time);
+
+  filter.type="lowpass";
+  filter.frequency.value=480;
+
+  gain.gain.setValueAtTime(.0001,time);
+  gain.gain.exponentialRampToValueAtTime(
+    velocity,
+    time+.008
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+duration
+  );
+
+  osc.connect(filter);
+  filter.connect(gain);
+  gain.connect(master);
+
+  osc.start(time);
+  osc.stop(time+duration+.03);
+}
+
+/* =========================================================
+   DRUMS
+========================================================= */
+
+function kick(time,velocity=.55){
+
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+
+  osc.type="sine";
+
+  osc.frequency.setValueAtTime(115,time);
+  osc.frequency.exponentialRampToValueAtTime(
+    43,
+    time+.13
+  );
+
+  gain.gain.setValueAtTime(velocity,time);
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+.19
+  );
+
+  osc.connect(gain);
+  gain.connect(master);
+
+  osc.start(time);
+  osc.stop(time+.2);
+}
+
+function hat(time,velocity=.065){
+
+  const length=Math.floor(ctx.sampleRate*.045);
+  const buffer=ctx.createBuffer(
+    1,
+    length,
+    ctx.sampleRate
+  );
+
+  const data=buffer.getChannelData(0);
+
+  for(let i=0;i<length;i++){
+    data[i]=Math.random()*2-1;
+  }
+
+  const source=ctx.createBufferSource();
+  source.buffer=buffer;
+
+  const hp=ctx.createBiquadFilter();
+  hp.type="highpass";
+  hp.frequency.value=6500;
+
+  const gain=ctx.createGain();
+
+  gain.gain.setValueAtTime(velocity,time);
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+.045
+  );
+
+  source.connect(hp);
+  hp.connect(gain);
+  gain.connect(master);
+
+  source.start(time);
+}
+
+/* =========================================================
+   TEXTURE
+========================================================= */
+
+function texture(freq,time,duration=1.4){
+
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  const filter=ctx.createBiquadFilter();
+
+  osc.type="sine";
+  osc.frequency.value=freq;
+
+  filter.type="lowpass";
+  filter.frequency.value=1800;
+
+  gain.gain.setValueAtTime(.0001,time);
+
+  gain.gain.exponentialRampToValueAtTime(
+    .055,
+    time+.25
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+duration
+  );
+
+  osc.connect(filter);
+  filter.connect(gain);
+
+  gain.connect(delay);
+  gain.connect(reverb);
+
+  osc.start(time);
+  osc.stop(time+duration+.05);
+}
+
+/* =========================================================
+   MOTIF 01 A — PURE
+========================================================= */
+
+const pureSequence = {
+
+  0:  ["D4","A4"],
+  4:  ["F4"],
+  7:  ["E4"],
+  10: ["A4"],
+  14: ["G4"],
+
+  16: ["C4","G4"],
+  20: ["E4"],
+  24: ["G4"],
+  27: ["A4"],
+  30: ["E4"],
+
+  32: ["B3","F4"],
+  36: ["D4"],
+  39: ["E4"],
+  43: ["A4"],
+  46: ["G4"],
+
+  48: ["D4","A4"],
+  52: ["F4"],
+  56: ["E4"],
+  59: ["C5"],
+  62: ["A4"]
+};
+
+function schedulePure(step,time){
+
+  const notes=pureSequence[step];
+
+  if(!notes) return;
+
+  notes.forEach((name,index)=>{
+
+    electricPiano(
+      NOTE[name],
+      time + index*.012,
+      .62 + Math.random()*.16,
+      .21 + Math.random()*.035,
+      .10
+    );
+
+  });
+}
+
+/* =========================================================
+   MOTIF 01 B — PULSE
+========================================================= */
+
+const bassPattern={
+  0:"D2",
+  8:"D2",
+
+  16:"C3",
+  24:"C3",
+
+  32:"B2",
+  40:"B2",
+
+  48:"D2",
+  56:"D2"
+};
+
+function schedulePulse(step,time){
+
+  /* kick */
+
+  if(step%16===0 || step%16===8){
+    kick(time,.31);
+  }
+
+  /* ghost kick */
+
+  if(step%16===11 && Math.random()>.55){
+    kick(time,.11);
+  }
+
+  /* hats */
+
+  if(step%2===0){
+
+    const accent =
+      step%4===2 ? .055 : .035;
+
+    hat(
+      time,
+      accent + Math.random()*.012
+    );
+  }
+
+  /* bass */
+
+  const n=bassPattern[step];
+
+  if(n){
+    bass(NOTE[n],time,.34,.14);
+  }
+
+  /* sparse piano pulse */
+
+  if(
+    step%16===6 ||
+    step%16===14
+  ){
+
+    const bar=Math.floor(step/16);
+
+    const notes=[
+      "A4",
+      "G4",
+      "F4",
+      "A4"
+    ];
+
+    electricPiano(
+      NOTE[notes[bar]],
+      time,
+      .28,
+      .12,
+      .05
+    );
+  }
+}
+
+/* =========================================================
+   MOTIF 01 C — SPACE
+========================================================= */
+
+const spaceSequence={
+
+  2:"A4",
+  11:"E5",
+
+  18:"G4",
+  29:"A4",
+
+  34:"F4",
+  45:"E5",
+
+  50:"A4",
+  61:"C5"
+};
+
+function scheduleSpace(step,time){
+
+  const n=spaceSequence[step];
+
+  if(n){
+
+    electricPiano(
+      NOTE[n],
+      time,
+      1.25,
+      .14,
+      .38
+    );
+
+    if(Math.random()>.45){
+
+      texture(
+        NOTE[n]/2,
+        time+.05,
+        1.6
+      );
+
+    }
+  }
+
+  /* rare atmospheric tone */
+
+  if(
+    step%16===15 &&
+    Math.random()>.55
+  ){
+
+    const notes=["D4","C4","B3"];
+
+    const note=
+      notes[
+        Math.floor(Math.random()*notes.length)
+      ];
+
+    texture(
+      NOTE[note],
+      time,
+      1.8
+    );
+  }
+}
+
+/* =========================================================
+   CLOCK
+========================================================= */
+
+function secondsPerStep(){
+  return (60/bpm)/4;
+}
+
+function scheduler(){
+
+  while(
+    nextStepTime <
+    ctx.currentTime + SCHEDULE_AHEAD
+  ){
+
+    scheduleStep(
+      currentStep,
+      nextStepTime
+    );
+
+    nextStepTime += secondsPerStep();
+
+    currentStep =
+      (currentStep+1)%TOTAL_STEPS;
+  }
+}
+
+function scheduleStep(step,time){
+
+  processQueuedStates(step);
+
+  if(padStates[0].state==="playing"){
+    schedulePure(step,time);
+  }
+
+  if(padStates[1].state==="playing"){
+    schedulePulse(step,time);
+  }
+
+  if(padStates[2].state==="playing"){
+    scheduleSpace(step,time);
+  }
+}
+
+/* =========================================================
+   QUANTIZATION
+========================================================= */
+
+function processQueuedStates(step){
+
+  /* Quantize to bar */
+
+  if(step%STEPS_PER_BAR!==0) return;
+
+  padStates.forEach((pad,index)=>{
+
+    if(pad.state==="armed"){
+
+      pad.state="playing";
+      updatePadUI(index);
+
+    }
+
+    else if(pad.state==="stopping"){
+
+      pad.state="off";
+      updatePadUI(index);
+
+    }
+
+  });
+
+  updateActive();
+}
+
+/* =========================================================
+   PAD CONTROL
+========================================================= */
+
+pads.forEach((element,index)=>{
+
+  element.addEventListener(
+    "pointerdown",
+    ()=>{
+      togglePad(index);
+    }
+  );
+
+});
+
+function togglePad(index){
+
+  if(!running) return;
+
+  const p=padStates[index];
+
+  if(p.state==="off"){
+
+    p.state="armed";
+
+  }else if(p.state==="armed"){
+
+    p.state="off";
+
+  }else if(p.state==="playing"){
+
+    p.state="stopping";
+
+  }else if(p.state==="stopping"){
+
+    p.state="playing";
+
+  }
+
+  updatePadUI(index);
+}
+
+function updatePadUI(index){
+
+  const element=pads[index];
+  const state=padStates[index].state;
+
+  element.classList.remove(
+    "armed",
+    "playing",
+    "stopping"
+  );
+
+  const label=
+    element.querySelector(".pad-state");
+
+  if(state==="off"){
+    label.textContent="OFF";
+  }
+
+  if(state==="armed"){
+    element.classList.add("armed");
+    label.textContent="ARMED";
+  }
+
+  if(state==="playing"){
+    element.classList.add("playing");
+    label.textContent="PLAYING";
+  }
+
+  if(state==="stopping"){
+    element.classList.add("stopping");
+    label.textContent="STOP ARMED";
+  }
+}
+
+function updateActive(){
+
+  const active=
+    padStates.filter(
+      p=>p.state==="playing"
+    ).length;
+
+  activeDisplay.textContent=
+    active+"/3";
+}
+
+/* =========================================================
+   BPM
+========================================================= */
+
+function setBpm(value){
+
+  bpm=value;
+
+  bpm72.classList.toggle(
+    "selected",
+    value===72
+  );
+
+  bpm144.classList.toggle(
+    "selected",
+    value===144
+  );
+
+  /* musical delay follows tempo */
+
+  if(ctx){
+
+    delay.delayTime.setTargetAtTime(
+      (60/bpm)*.75,
+      ctx.currentTime,
+      .05
+    );
+  }
+}
+
+bpm72.onclick=()=>setBpm(72);
+bpm144.onclick=()=>setBpm(144);
+
+/* =========================================================
+   STOP
+========================================================= */
+
+document.getElementById("stopAll").onclick=()=>{
+
+  padStates.forEach((p,index)=>{
+
+    if(
+      p.state==="playing" ||
+      p.state==="armed"
+    ){
+
+      p.state="stopping";
+      updatePadUI(index);
+
+    }
+
+  });
+
+};
+
+/* =========================================================
+   VISUAL CLOCK
+========================================================= */
+
+function visualLoop(){
+
+  if(running && ctx){
+
+    const elapsed=
+      ctx.currentTime-startTime;
+
+    const beatDuration=60/bpm;
+
+    const beat=
+      elapsed/beatDuration;
+
+    const bar=
+      Math.floor(beat/4)%TOTAL_BARS;
+
+    const beatInBar=
+      Math.floor(beat)%4;
+
+    barDisplay.textContent=
+      String(bar+1).padStart(2,"0")
+      +":"
+      +(beatInBar+1);
+
+    const loopDuration=
+      beatDuration*4*TOTAL_BARS;
+
+    const progress=
+      (elapsed%loopDuration)/loopDuration;
+
+    timelineFill.style.width=
+      (progress*100)+"%";
+
+    /* beat flash */
+
+    const phase=beat%1;
+
+    if(phase<.10){
+
+      pads.forEach((pad,index)=>{
+
+        if(
+          padStates[index].state==="playing"
+        ){
+
+          pad.style.filter=
+            "brightness(1.25)";
+
+        }
+
+      });
+
+    }else{
+
+      pads.forEach(
+        pad=>pad.style.filter=""
+      );
+
+    }
+  }
+
+  requestAnimationFrame(visualLoop);
+}
+
+visualLoop();
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+document.getElementById("startButton")
+.addEventListener("click",async()=>{
+
+  if(!ctx){
+    initAudio();
+  }
+
+  if(ctx.state==="suspended"){
+    await ctx.resume();
+  }
+
+  setBpm(72);
+
+  running=true;
+
+  currentStep=0;
+
+  startTime=
+    ctx.currentTime+.08;
+
+  nextStepTime=startTime;
+
+  schedulerTimer=
+    setInterval(
+      scheduler,
+      LOOKAHEAD
+    );
+
+  document.getElementById(
+    "startOverlay"
+  ).style.display="none";
+
+});
+
+})();
+</script>
+
+</body>
+</html>
