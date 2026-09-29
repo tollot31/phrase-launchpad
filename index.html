@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#07090c">
-<title>PULSE GRID</title>
+content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#05070a">
+<title>PULSE GRID v0.2</title>
 
 <style>
 *{
@@ -18,11 +18,9 @@ html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  background:#050608;
-  color:#dfe6ee;
-  font-family:
-    -apple-system,BlinkMacSystemFont,
-    "Helvetica Neue",Arial,sans-serif;
+  background:#040506;
+  color:#e3e8ee;
+  font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
   touch-action:none;
   user-select:none;
   -webkit-user-select:none;
@@ -37,6 +35,7 @@ body{
 #app{
   width:100%;
   height:100%;
+
   padding:
     max(12px,env(safe-area-inset-top))
     max(14px,env(safe-area-inset-right))
@@ -45,57 +44,65 @@ body{
 
   display:grid;
   grid-template-rows:auto 1fr auto;
-  gap:12px;
+  gap:11px;
 
   background:
-    radial-gradient(circle at 50% 35%,
-      #141820 0%,
-      #090b0f 44%,
-      #040506 100%);
+    radial-gradient(circle at 50% 34%,
+      #151a22 0%,
+      #090c10 43%,
+      #030405 100%);
 }
 
-/* ---------- HEADER ---------- */
+/* =========================
+   HEADER
+========================= */
 
 header{
+  min-height:34px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  min-height:34px;
 }
 
 .brand{
   font-size:12px;
   font-weight:600;
   letter-spacing:.24em;
-  color:#cbd1d8;
+  color:#cdd3da;
 }
 
 .status{
   display:flex;
   align-items:center;
-  gap:9px;
-  font-size:10px;
-  letter-spacing:.14em;
-  color:#717985;
+  gap:8px;
+  font-size:9px;
+  letter-spacing:.13em;
+  color:#77808b;
+}
+
+#sectionLabel{
+  min-width:72px;
+  text-align:right;
 }
 
 .status-dot{
   width:6px;
   height:6px;
   border-radius:50%;
-  background:#333942;
-  box-shadow:0 0 0 rgba(255,255,255,0);
-  transition:.25s;
+  background:#333941;
+  transition:.2s;
 }
 
 .status-dot.live{
-  background:#c9fff6;
+  background:#c8fff7;
   box-shadow:
-    0 0 6px #6fffe7,
-    0 0 15px rgba(92,255,226,.45);
+    0 0 6px #55ffe1,
+    0 0 17px rgba(60,255,220,.5);
 }
 
-/* ---------- MAIN ---------- */
+/* =========================
+   INSTRUMENT
+========================= */
 
 main{
   min-height:0;
@@ -106,6 +113,7 @@ main{
 
 .instrument{
   position:relative;
+
   aspect-ratio:1/1;
   width:min(78vh,86vw);
   max-width:720px;
@@ -115,95 +123,122 @@ main{
   border-radius:22px;
 
   background:
-    linear-gradient(145deg,#171a1f,#090b0e 48%,#12151a);
+    linear-gradient(
+      145deg,
+      #181b20,
+      #090b0e 48%,
+      #12151a
+    );
 
   border:1px solid rgba(255,255,255,.07);
 
   box-shadow:
-    0 28px 70px rgba(0,0,0,.65),
+    0 30px 75px rgba(0,0,0,.68),
     inset 0 1px 0 rgba(255,255,255,.055),
-    inset 0 -1px 0 rgba(0,0,0,.9);
+    inset 0 -1px 0 rgba(0,0,0,.95);
 }
 
 .instrument::before{
   content:"";
   position:absolute;
   inset:6px;
+
   border-radius:17px;
-  pointer-events:none;
   border:1px solid rgba(255,255,255,.025);
+
+  pointer-events:none;
 }
 
 #grid{
   width:100%;
   height:100%;
+
   display:grid;
   grid-template-columns:repeat(8,1fr);
   grid-template-rows:repeat(8,1fr);
+
   gap:clamp(5px,1vw,10px);
 }
 
-/* ---------- PAD ---------- */
+/* =========================
+   PADS
+========================= */
 
 .pad{
   position:relative;
   overflow:hidden;
+
   border:0;
   padding:0;
 
   border-radius:clamp(5px,1vw,9px);
 
   background:
-    linear-gradient(145deg,#252a31,#101318 58%,#090b0e);
+    linear-gradient(
+      145deg,
+      #252a31,
+      #101318 58%,
+      #080a0d
+    );
 
   box-shadow:
     inset 1px 1px 1px rgba(255,255,255,.065),
-    inset -1px -1px 2px rgba(0,0,0,.9),
-    0 2px 4px rgba(0,0,0,.5);
+    inset -1px -1px 2px rgba(0,0,0,.92),
+    0 2px 4px rgba(0,0,0,.52);
 
   transform:translateZ(0) scale(1);
+
   transition:
     transform .055s ease,
-    box-shadow .12s ease;
+    box-shadow .1s ease;
 }
 
 .pad::before{
   content:"";
+
   position:absolute;
-  inset:7%;
+  inset:6%;
+
   border-radius:inherit;
 
   background:
-    linear-gradient(145deg,
-      rgba(255,255,255,.025),
-      rgba(255,255,255,0));
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.03),
+      rgba(255,255,255,0)
+    );
 
   pointer-events:none;
 }
 
 .pad::after{
   content:"";
+
   position:absolute;
   inset:0;
+
   border-radius:inherit;
 
   background:var(--light,transparent);
   opacity:var(--power,0);
 
   box-shadow:
-    inset 0 0 12px var(--glow,transparent);
+    inset 0 0 14px var(--glow,transparent),
+    0 0 var(--outer-size,0px) var(--outer-glow,transparent);
 
   transition:
-    opacity var(--fade,450ms) ease-out;
+    opacity var(--fade,300ms) ease-out;
 
   pointer-events:none;
 }
 
 .pad.active{
-  transform:scale(.94);
+  transform:scale(.93);
 }
 
-/* ---------- CONTROLS ---------- */
+/* =========================
+   CONTROLS
+========================= */
 
 .controls{
   min-height:52px;
@@ -211,6 +246,7 @@ main{
   display:flex;
   justify-content:center;
   align-items:center;
+
   gap:10px;
 }
 
@@ -219,6 +255,7 @@ main{
   gap:5px;
 
   padding:4px;
+
   border-radius:13px;
 
   background:rgba(255,255,255,.025);
@@ -228,6 +265,7 @@ main{
 .mode{
   border:0;
   border-radius:9px;
+
   padding:9px 15px;
 
   background:transparent;
@@ -236,11 +274,11 @@ main{
   font-size:10px;
   letter-spacing:.14em;
 
-  transition:.2s;
+  transition:.18s;
 }
 
 .mode.selected{
-  color:#eef4f7;
+  color:#f2f5f7;
   background:#191d23;
 
   box-shadow:
@@ -249,18 +287,21 @@ main{
 }
 
 .mode.disabled{
-  opacity:.27;
+  opacity:.25;
 }
 
 #autoButton{
   min-width:74px;
+
   border:1px solid rgba(255,255,255,.08);
   border-radius:12px;
+
   padding:10px 15px;
 
-  color:#bfc6ce;
+  color:#c3cad1;
+
   background:
-    linear-gradient(#181c21,#0d1014);
+    linear-gradient(#191d22,#0d1014);
 
   font-size:10px;
   letter-spacing:.14em;
@@ -272,11 +313,12 @@ main{
 
 #autoButton.on{
   color:#fff;
-  border-color:rgba(100,255,225,.25);
+
+  border-color:rgba(85,255,220,.25);
 
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,.08),
-    0 0 14px rgba(70,255,220,.12);
+    0 0 16px rgba(70,255,220,.14);
 }
 
 .volume{
@@ -287,29 +329,53 @@ main{
 
 input[type=range]{
   width:100%;
+
   appearance:none;
   -webkit-appearance:none;
+
   height:2px;
+
   border-radius:2px;
+
   background:#343941;
 }
 
 input[type=range]::-webkit-slider-thumb{
   appearance:none;
   -webkit-appearance:none;
+
   width:13px;
   height:13px;
+
   border-radius:50%;
-  background:#c9ced5;
+
+  background:#cbd0d6;
+
   box-shadow:0 1px 5px #000;
 }
 
-/* ---------- PORTRAIT ---------- */
+/* =========================
+   CHILL BODY
+========================= */
+
+body.chill .instrument{
+  background:
+    linear-gradient(
+      145deg,
+      #15191c,
+      #090c0e 50%,
+      #111416
+    );
+}
+
+/* =========================
+   PORTRAIT
+========================= */
 
 @media (orientation:portrait){
 
   #app{
-    gap:10px;
+    gap:9px;
   }
 
   .instrument{
@@ -327,13 +393,10 @@ input[type=range]::-webkit-slider-thumb{
   .volume{
     width:64px;
   }
-}
 
-/* ---------- CHILL ---------- */
-
-body.chill .instrument{
-  background:
-    linear-gradient(145deg,#15191c,#090c0e 50%,#111416);
+  #sectionLabel{
+    display:none;
+  }
 }
 </style>
 </head>
@@ -343,96 +406,178 @@ body.chill .instrument{
 <div id="app">
 
 <header>
-  <div class="brand">PULSE GRID</div>
+
+  <div class="brand">
+    PULSE GRID
+  </div>
 
   <div class="status">
-    <span id="modeLabel">NEON · 112</span>
-    <span id="statusDot" class="status-dot"></span>
+
+    <span id="sectionLabel">
+      READY
+    </span>
+
+    <span id="modeLabel">
+      NEON · 112
+    </span>
+
+    <span
+      id="statusDot"
+      class="status-dot">
+    </span>
+
   </div>
+
 </header>
 
 <main>
+
   <div class="instrument">
+
     <div id="grid"></div>
+
   </div>
+
 </main>
 
 <div class="controls">
 
   <div class="styles">
-    <button class="mode" data-mode="chill">CHILL</button>
-    <button class="mode selected" data-mode="neon">NEON</button>
-    <button class="mode disabled">HOUSE</button>
-    <button class="mode disabled">DRIVE</button>
+
+    <button
+      class="mode"
+      data-mode="chill">
+      CHILL
+    </button>
+
+    <button
+      class="mode selected"
+      data-mode="neon">
+      NEON
+    </button>
+
+    <button class="mode disabled">
+      HOUSE
+    </button>
+
+    <button class="mode disabled">
+      DRIVE
+    </button>
+
   </div>
 
-  <button id="autoButton">▶ AUTO</button>
+  <button id="autoButton">
+    ▶ AUTO
+  </button>
 
   <div class="volume">
-    <input id="volume"
-           type="range"
-           min="0"
-           max="1"
-           step=".01"
-           value=".68">
+
+    <input
+      id="volume"
+      type="range"
+      min="0"
+      max="1"
+      step=".01"
+      value=".66">
+
   </div>
 
 </div>
+
 </div>
 
 <script>
 "use strict";
 
 /* =========================================================
-   PULSE GRID v0.1
+   PULSE GRID v0.2
    ========================================================= */
 
-const PAD_COUNT = 64;
+const PAD_COUNT=64;
 
-const grid       = document.getElementById("grid");
-const autoButton = document.getElementById("autoButton");
-const statusDot  = document.getElementById("statusDot");
-const modeLabel  = document.getElementById("modeLabel");
-const volume     = document.getElementById("volume");
+const grid=
+  document.getElementById("grid");
 
-const pads = [];
+const autoButton=
+  document.getElementById("autoButton");
+
+const statusDot=
+  document.getElementById("statusDot");
+
+const modeLabel=
+  document.getElementById("modeLabel");
+
+const sectionLabel=
+  document.getElementById("sectionLabel");
+
+const volume=
+  document.getElementById("volume");
+
+const pads=[];
+
+
+/* =========================================================
+   CREATE GRID
+   ========================================================= */
 
 for(let i=0;i<PAD_COUNT;i++){
 
-  const pad=document.createElement("button");
+  const pad=
+    document.createElement("button");
 
   pad.className="pad";
   pad.dataset.index=i;
 
   grid.appendChild(pad);
+
   pads.push(pad);
 }
 
+
 /* =========================================================
-   AUDIO ENGINE
+   AUDIO
    ========================================================= */
 
 let ctx=null;
+
 let master=null;
 let compressor=null;
+
 let delay=null;
 let delayFeedback=null;
 let delayReturn=null;
+
+let ambienceDelay=null;
+let ambienceFeedback=null;
+
+
+/* =========================================================
+   AUDIO INIT
+   ========================================================= */
 
 async function initAudio(){
 
   if(!ctx){
 
-    const AudioContext =
+    const AudioContext=
       window.AudioContext ||
       window.webkitAudioContext;
 
     ctx=new AudioContext();
 
-    master=ctx.createGain();
-    master.gain.value=Number(volume.value);
 
-    compressor=ctx.createDynamicsCompressor();
+    /* MASTER */
+
+    master=ctx.createGain();
+
+    master.gain.value=
+      Number(volume.value);
+
+
+    /* COMPRESSOR */
+
+    compressor=
+      ctx.createDynamicsCompressor();
 
     compressor.threshold.value=-18;
     compressor.knee.value=12;
@@ -440,13 +585,19 @@ async function initAudio(){
     compressor.attack.value=.008;
     compressor.release.value=.22;
 
+
+    /* MAIN DELAY */
+
     delay=ctx.createDelay(1);
-    delay.delayTime.value=.27;
+
+    delay.delayTime.value=.268;
 
     delayFeedback=ctx.createGain();
-    delayFeedback.gain.value=.25;
+
+    delayFeedback.gain.value=.24;
 
     delayReturn=ctx.createGain();
+
     delayReturn.gain.value=.18;
 
     delay.connect(delayFeedback);
@@ -455,54 +606,107 @@ async function initAudio(){
     delay.connect(delayReturn);
     delayReturn.connect(compressor);
 
+
+    /* AMBIENT DELAY */
+
+    ambienceDelay=
+      ctx.createDelay(2);
+
+    ambienceDelay.delayTime.value=.46;
+
+    ambienceFeedback=
+      ctx.createGain();
+
+    ambienceFeedback.gain.value=.32;
+
+    ambienceDelay.connect(
+      ambienceFeedback
+    );
+
+    ambienceFeedback.connect(
+      ambienceDelay
+    );
+
+    const ambientReturn=
+      ctx.createGain();
+
+    ambientReturn.gain.value=.11;
+
+    ambienceDelay.connect(
+      ambientReturn
+    );
+
+    ambientReturn.connect(
+      compressor
+    );
+
+
     master.connect(compressor);
-    compressor.connect(ctx.destination);
+
+    compressor.connect(
+      ctx.destination
+    );
   }
 
+
   if(ctx.state!=="running"){
+
     try{
+
       await ctx.resume();
+
     }catch(e){}
   }
 }
 
-volume.addEventListener("input",()=>{
-  if(master){
+
+/* =========================================================
+   VOLUME
+   ========================================================= */
+
+volume.addEventListener(
+  "input",
+  ()=>{
+
+    if(!master)return;
+
     master.gain.setTargetAtTime(
       Number(volume.value),
       ctx.currentTime,
       .02
     );
   }
-});
+);
+
 
 /* =========================================================
-   MUSIC
+   NOTES
    ========================================================= */
 
 const NOTE={
+
   C2:65.41,
   D2:73.42,
   E2:82.41,
   F2:87.31,
-  G2:98.00,
-  A2:110.00,
+  G2:98,
+  A2:110,
   Bb2:116.54,
 
   C3:130.81,
   D3:146.83,
   E3:164.81,
   F3:174.61,
-  G3:196.00,
-  A3:220.00,
+  G3:196,
+  A3:220,
   Bb3:233.08,
 
   C4:261.63,
   D4:293.66,
   E4:329.63,
   F4:349.23,
-  G4:392.00,
-  A4:440.00,
+  G4:392,
+  A4:440,
   Bb4:466.16,
 
   C5:523.25,
@@ -510,12 +714,18 @@ const NOTE={
   E5:659.25,
   F5:698.46,
   G5:783.99,
-  A5:880.00
+  A5:880
 };
+
+
+/* =========================================================
+   SCALES
+   ========================================================= */
 
 const scales={
 
   neon:[
+
     NOTE.A3,
     NOTE.C4,
     NOTE.D4,
@@ -524,9 +734,11 @@ const scales={
     NOTE.A4,
     NOTE.C5,
     NOTE.D5
+
   ],
 
   chill:[
+
     NOTE.D3,
     NOTE.F3,
     NOTE.A3,
@@ -535,114 +747,416 @@ const scales={
     NOTE.F4,
     NOTE.A4,
     NOTE.C5
+
   ]
 };
 
-const progressions={
-
-  neon:[
-    [NOTE.A2,NOTE.C4,NOTE.E4],
-    [NOTE.F2,NOTE.A3,NOTE.C4],
-    [NOTE.C3,NOTE.E4,NOTE.G4],
-    [NOTE.G2,NOTE.D4,NOTE.G4]
-  ],
-
-  chill:[
-    [NOTE.D2,NOTE.F3,NOTE.A3,NOTE.C4],
-    [NOTE.Bb2,NOTE.D3,NOTE.F3,NOTE.A3],
-    [NOTE.F2,NOTE.A3,NOTE.C4,NOTE.E4],
-    [NOTE.C3,NOTE.E3,NOTE.G3,NOTE.D4]
-  ]
-};
 
 /* =========================================================
-   SYNTHS
+   PROGRESSIONS
    ========================================================= */
 
-function connectVoice(node,gain,wet=.12){
+const neonProgressionA=[
 
-  node.connect(gain);
-  gain.connect(master);
+  [NOTE.A2,NOTE.C4,NOTE.E4],
+  [NOTE.F2,NOTE.A3,NOTE.C4],
+  [NOTE.C3,NOTE.E4,NOTE.G4],
+  [NOTE.G2,NOTE.D4,NOTE.G4]
 
-  if(wet>0){
-    const send=ctx.createGain();
-    send.gain.value=wet;
-    gain.connect(send);
-    send.connect(delay);
-  }
-}
+];
 
-function pluck(freq,time=ctx.currentTime,level=.12){
 
-  const osc=ctx.createOscillator();
-  const gain=ctx.createGain();
-  const filter=ctx.createBiquadFilter();
+const neonProgressionB=[
+
+  [NOTE.F2,NOTE.A3,NOTE.C4],
+  [NOTE.G2,NOTE.D4,NOTE.G4],
+  [NOTE.A2,NOTE.C4,NOTE.E4],
+  [NOTE.E2,NOTE.G3,NOTE.D4]
+
+];
+
+
+const chillProgression=[
+
+  [
+    NOTE.D2,
+    NOTE.F3,
+    NOTE.A3,
+    NOTE.C4
+  ],
+
+  [
+    NOTE.Bb2,
+    NOTE.D3,
+    NOTE.F3,
+    NOTE.A3
+  ],
+
+  [
+    NOTE.F2,
+    NOTE.A3,
+    NOTE.C4,
+    NOTE.E4
+  ],
+
+  [
+    NOTE.C3,
+    NOTE.E3,
+    NOTE.G3,
+    NOTE.D4
+  ]
+
+];
+
+
+/* =========================================================
+   SYNTH : PLUCK
+   ========================================================= */
+
+function pluck(
+  freq,
+  time=ctx.currentTime,
+  level=.12,
+  bright=1
+){
+
+  const osc=
+    ctx.createOscillator();
+
+  const gain=
+    ctx.createGain();
+
+  const filter=
+    ctx.createBiquadFilter();
+
 
   osc.type="triangle";
-  osc.frequency.setValueAtTime(freq,time);
 
-  filter.type="lowpass";
-  filter.frequency.setValueAtTime(4200,time);
-  filter.frequency.exponentialRampToValueAtTime(
-    700,
-    time+.34
+  osc.frequency.setValueAtTime(
+    freq,
+    time
   );
 
-  gain.gain.setValueAtTime(.0001,time);
-  gain.gain.exponentialRampToValueAtTime(level,time+.008);
-  gain.gain.exponentialRampToValueAtTime(.0001,time+.48);
+
+  filter.type="lowpass";
+
+  filter.frequency.setValueAtTime(
+    4400*bright,
+    time
+  );
+
+  filter.frequency.exponentialRampToValueAtTime(
+    650,
+    time+.38
+  );
+
+
+  gain.gain.setValueAtTime(
+    .0001,
+    time
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    level,
+    time+.008
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+.5
+  );
+
 
   osc.connect(filter);
+
   filter.connect(gain);
 
   gain.connect(master);
 
-  const send=ctx.createGain();
+
+  const send=
+    ctx.createGain();
+
   send.gain.value=.22;
+
   gain.connect(send);
+
   send.connect(delay);
 
+
   osc.start(time);
+
   osc.stop(time+.55);
 }
 
-function softKey(freq,time=ctx.currentTime,level=.08){
 
-  const o1=ctx.createOscillator();
-  const o2=ctx.createOscillator();
+/* =========================================================
+   SYNTH : LEAD
+   ========================================================= */
 
-  const filter=ctx.createBiquadFilter();
-  const gain=ctx.createGain();
+function lead(
+  freq,
+  time=ctx.currentTime,
+  level=.085
+){
 
-  o1.type="sine";
+  const o1=
+    ctx.createOscillator();
+
+  const o2=
+    ctx.createOscillator();
+
+  const filter=
+    ctx.createBiquadFilter();
+
+  const gain=
+    ctx.createGain();
+
+
+  o1.type="sawtooth";
   o2.type="triangle";
 
+
   o1.frequency.value=freq;
-  o2.frequency.value=freq*2;
+
+  o2.frequency.value=
+    freq*1.002;
+
 
   filter.type="lowpass";
-  filter.frequency.value=1800;
-  filter.Q.value=.7;
 
-  gain.gain.setValueAtTime(.0001,time);
-  gain.gain.exponentialRampToValueAtTime(level,time+.025);
-  gain.gain.exponentialRampToValueAtTime(level*.45,time+.25);
-  gain.gain.exponentialRampToValueAtTime(.0001,time+1.4);
+  filter.frequency.setValueAtTime(
+    2600,
+    time
+  );
 
-  const g2=ctx.createGain();
-  g2.gain.value=.13;
+  filter.frequency.exponentialRampToValueAtTime(
+    1000,
+    time+.55
+  );
+
+
+  gain.gain.setValueAtTime(
+    .0001,
+    time
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    level,
+    time+.025
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+.72
+  );
+
 
   o1.connect(filter);
-  o2.connect(g2);
-  g2.connect(filter);
+  o2.connect(filter);
 
   filter.connect(gain);
+
   gain.connect(master);
 
-  const send=ctx.createGain();
-  send.gain.value=.32;
+
+  const send=
+    ctx.createGain();
+
+  send.gain.value=.3;
+
   gain.connect(send);
+
   send.connect(delay);
+
+
+  o1.start(time);
+  o2.start(time);
+
+  o1.stop(time+.8);
+  o2.stop(time+.8);
+}
+
+
+/* =========================================================
+   SYNTH : AIR
+   ========================================================= */
+
+function airPad(
+  freqs,
+  time,
+  level=.025,
+  duration=2
+){
+
+  freqs.forEach(
+    (freq,index)=>{
+
+      const osc=
+        ctx.createOscillator();
+
+      const filter=
+        ctx.createBiquadFilter();
+
+      const gain=
+        ctx.createGain();
+
+
+      osc.type=
+        index%2
+          ?"triangle"
+          :"sine";
+
+
+      osc.frequency.value=
+        freq;
+
+
+      filter.type="lowpass";
+
+      filter.frequency.value=
+        1350;
+
+
+      gain.gain.setValueAtTime(
+        .0001,
+        time
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        level,
+        time+.3
+      );
+
+      gain.gain.setValueAtTime(
+        level,
+        time+duration*.55
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        time+duration
+      );
+
+
+      osc.connect(filter);
+
+      filter.connect(gain);
+
+      gain.connect(master);
+
+
+      const send=
+        ctx.createGain();
+
+      send.gain.value=.4;
+
+      gain.connect(send);
+
+      send.connect(
+        ambienceDelay
+      );
+
+
+      osc.start(time);
+
+      osc.stop(
+        time+duration+.1
+      );
+    }
+  );
+}
+
+
+/* =========================================================
+   SYNTH : SOFT KEY
+   ========================================================= */
+
+function softKey(
+  freq,
+  time=ctx.currentTime,
+  level=.08
+){
+
+  const o1=
+    ctx.createOscillator();
+
+  const o2=
+    ctx.createOscillator();
+
+  const filter=
+    ctx.createBiquadFilter();
+
+  const gain=
+    ctx.createGain();
+
+
+  o1.type="sine";
+
+  o2.type="triangle";
+
+
+  o1.frequency.value=freq;
+
+  o2.frequency.value=
+    freq*2;
+
+
+  filter.type="lowpass";
+
+  filter.frequency.value=
+    1800;
+
+  filter.Q.value=.7;
+
+
+  gain.gain.setValueAtTime(
+    .0001,
+    time
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    level,
+    time+.025
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    level*.45,
+    time+.25
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+1.4
+  );
+
+
+  const harmonicGain=
+    ctx.createGain();
+
+  harmonicGain.gain.value=.13;
+
+
+  o1.connect(filter);
+
+  o2.connect(harmonicGain);
+
+  harmonicGain.connect(filter);
+
+  filter.connect(gain);
+
+  gain.connect(master);
+
+
+  const send=
+    ctx.createGain();
+
+  send.gain.value=.32;
+
+  gain.connect(send);
+
+  send.connect(delay);
+
 
   o1.start(time);
   o2.start(time);
@@ -651,254 +1165,821 @@ function softKey(freq,time=ctx.currentTime,level=.08){
   o2.stop(time+1.5);
 }
 
-function bass(freq,time=ctx.currentTime,level=.14){
 
-  const osc=ctx.createOscillator();
-  const sub=ctx.createOscillator();
+/* =========================================================
+   SYNTH : BASS
+   ========================================================= */
 
-  const filter=ctx.createBiquadFilter();
-  const gain=ctx.createGain();
+function bass(
+  freq,
+  time=ctx.currentTime,
+  level=.14,
+  duration=.42
+){
+
+  const osc=
+    ctx.createOscillator();
+
+  const sub=
+    ctx.createOscillator();
+
+  const filter=
+    ctx.createBiquadFilter();
+
+  const gain=
+    ctx.createGain();
+
 
   osc.type="sawtooth";
   sub.type="sine";
 
+
   osc.frequency.value=freq;
   sub.frequency.value=freq/2;
 
+
   filter.type="lowpass";
-  filter.frequency.value=420;
-  filter.Q.value=1.2;
 
-  gain.gain.setValueAtTime(.0001,time);
-  gain.gain.exponentialRampToValueAtTime(level,time+.015);
-  gain.gain.exponentialRampToValueAtTime(.0001,time+.42);
+  filter.frequency.value=430;
 
-  const sg=ctx.createGain();
-  sg.gain.value=.55;
+  filter.Q.value=1.25;
+
+
+  gain.gain.setValueAtTime(
+    .0001,
+    time
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    level,
+    time+.015
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .0001,
+    time+duration
+  );
+
+
+  const subGain=
+    ctx.createGain();
+
+  subGain.gain.value=.55;
+
 
   osc.connect(filter);
-  sub.connect(sg);
-  sg.connect(filter);
+
+  sub.connect(subGain);
+
+  subGain.connect(filter);
 
   filter.connect(gain);
+
   gain.connect(master);
+
 
   osc.start(time);
   sub.start(time);
 
-  osc.stop(time+.46);
-  sub.stop(time+.46);
+  osc.stop(time+duration+.05);
+  sub.stop(time+duration+.05);
 }
 
-function kick(time=ctx.currentTime){
 
-  const osc=ctx.createOscillator();
-  const gain=ctx.createGain();
+/* =========================================================
+   DRUM : KICK
+   ========================================================= */
+
+function kick(
+  time=ctx.currentTime,
+  level=.7
+){
+
+  const osc=
+    ctx.createOscillator();
+
+  const gain=
+    ctx.createGain();
+
 
   osc.type="sine";
 
-  osc.frequency.setValueAtTime(145,time);
-  osc.frequency.exponentialRampToValueAtTime(48,time+.12);
 
-  gain.gain.setValueAtTime(.7,time);
-  gain.gain.exponentialRampToValueAtTime(.001,time+.32);
-
-  osc.connect(gain);
-  gain.connect(master);
-
-  osc.start(time);
-  osc.stop(time+.34);
-
-  /* transient */
-
-  const buffer=ctx.createBuffer(
-    1,
-    Math.floor(ctx.sampleRate*.025),
-    ctx.sampleRate
+  osc.frequency.setValueAtTime(
+    150,
+    time
   );
 
-  const data=buffer.getChannelData(0);
+  osc.frequency.exponentialRampToValueAtTime(
+    47,
+    time+.12
+  );
 
-  for(let i=0;i<data.length;i++){
-    data[i]=(Math.random()*2-1)*(1-i/data.length);
+
+  gain.gain.setValueAtTime(
+    level,
+    time
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .001,
+    time+.32
+  );
+
+
+  osc.connect(gain);
+
+  gain.connect(master);
+
+
+  osc.start(time);
+
+  osc.stop(time+.34);
+
+
+  const buffer=
+    ctx.createBuffer(
+      1,
+      Math.floor(
+        ctx.sampleRate*.024
+      ),
+      ctx.sampleRate
+    );
+
+
+  const data=
+    buffer.getChannelData(0);
+
+
+  for(
+    let i=0;
+    i<data.length;
+    i++
+  ){
+
+    data[i]=
+      (Math.random()*2-1)*
+      (1-i/data.length);
   }
 
-  const noise=ctx.createBufferSource();
+
+  const noise=
+    ctx.createBufferSource();
+
   noise.buffer=buffer;
 
-  const ng=ctx.createGain();
-  ng.gain.value=.08;
+
+  const ng=
+    ctx.createGain();
+
+  ng.gain.value=.07;
+
 
   noise.connect(ng);
+
   ng.connect(master);
 
   noise.start(time);
 }
 
-function hat(time=ctx.currentTime,level=.045){
 
-  const len=Math.floor(ctx.sampleRate*.06);
+/* =========================================================
+   DRUM : HAT
+   ========================================================= */
 
-  const buffer=ctx.createBuffer(1,len,ctx.sampleRate);
-  const data=buffer.getChannelData(0);
+function hat(
+  time=ctx.currentTime,
+  level=.04,
+  open=false
+){
 
-  for(let i=0;i<len;i++){
-    data[i]=Math.random()*2-1;
+  const duration=
+    open
+      ?.18
+      :.055;
+
+
+  const len=
+    Math.floor(
+      ctx.sampleRate*duration
+    );
+
+
+  const buffer=
+    ctx.createBuffer(
+      1,
+      len,
+      ctx.sampleRate
+    );
+
+
+  const data=
+    buffer.getChannelData(0);
+
+
+  for(
+    let i=0;
+    i<len;
+    i++
+  ){
+
+    data[i]=
+      Math.random()*2-1;
   }
 
-  const noise=ctx.createBufferSource();
-  const hp=ctx.createBiquadFilter();
-  const gain=ctx.createGain();
+
+  const noise=
+    ctx.createBufferSource();
 
   noise.buffer=buffer;
 
-  hp.type="highpass";
-  hp.frequency.value=6500;
 
-  gain.gain.setValueAtTime(level,time);
-  gain.gain.exponentialRampToValueAtTime(.001,time+.055);
+  const hp=
+    ctx.createBiquadFilter();
+
+  hp.type="highpass";
+
+  hp.frequency.value=
+    open
+      ?5200
+      :6500;
+
+
+  const gain=
+    ctx.createGain();
+
+
+  gain.gain.setValueAtTime(
+    level,
+    time
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    .001,
+    time+duration
+  );
+
 
   noise.connect(hp);
+
   hp.connect(gain);
+
   gain.connect(master);
+
 
   noise.start(time);
 }
 
-function clap(time=ctx.currentTime){
-
-  [0,.012,.026].forEach(offset=>{
-
-    const len=Math.floor(ctx.sampleRate*.08);
-    const buffer=ctx.createBuffer(1,len,ctx.sampleRate);
-    const data=buffer.getChannelData(0);
-
-    for(let i=0;i<len;i++){
-      data[i]=Math.random()*2-1;
-    }
-
-    const noise=ctx.createBufferSource();
-    const bp=ctx.createBiquadFilter();
-    const gain=ctx.createGain();
-
-    noise.buffer=buffer;
-
-    bp.type="bandpass";
-    bp.frequency.value=1500;
-
-    gain.gain.setValueAtTime(.11,time+offset);
-    gain.gain.exponentialRampToValueAtTime(
-      .001,
-      time+offset+.09
-    );
-
-    noise.connect(bp);
-    bp.connect(gain);
-    gain.connect(master);
-
-    noise.start(time+offset);
-  });
-}
 
 /* =========================================================
-   LIGHT ENGINE
+   DRUM : CLAP
+   ========================================================= */
+
+function clap(
+  time=ctx.currentTime,
+  level=.11
+){
+
+  [
+    0,
+    .012,
+    .026
+  ].forEach(
+    offset=>{
+
+      const len=
+        Math.floor(
+          ctx.sampleRate*.08
+        );
+
+
+      const buffer=
+        ctx.createBuffer(
+          1,
+          len,
+          ctx.sampleRate
+        );
+
+
+      const data=
+        buffer.getChannelData(0);
+
+
+      for(
+        let i=0;
+        i<len;
+        i++
+      ){
+
+        data[i]=
+          Math.random()*2-1;
+      }
+
+
+      const noise=
+        ctx.createBufferSource();
+
+
+      const bp=
+        ctx.createBiquadFilter();
+
+
+      const gain=
+        ctx.createGain();
+
+
+      noise.buffer=buffer;
+
+
+      bp.type="bandpass";
+
+      bp.frequency.value=
+        1500;
+
+
+      gain.gain.setValueAtTime(
+        level,
+        time+offset
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .001,
+        time+offset+.09
+      );
+
+
+      noise.connect(bp);
+
+      bp.connect(gain);
+
+      gain.connect(master);
+
+
+      noise.start(
+        time+offset
+      );
+    }
+  );
+}
+
+
+/* =========================================================
+   COLORS
    ========================================================= */
 
 const COLORS={
 
   cyan:{
-    core:"#bafff8",
+    core:"#d1fffb",
     glow:"#35ffe1"
   },
 
   blue:{
-    core:"#b8d9ff",
-    glow:"#378cff"
+    core:"#d0e4ff",
+    glow:"#3c91ff"
   },
 
   violet:{
-    core:"#e0c5ff",
-    glow:"#9b5cff"
+    core:"#ebd8ff",
+    glow:"#a55cff"
   },
 
   magenta:{
-    core:"#ffc2fa",
-    glow:"#ff4fe1"
+    core:"#ffd0fb",
+    glow:"#ff4ddd"
   },
 
   amber:{
-    core:"#fff0b4",
-    glow:"#ffb33c"
+    core:"#fff3bd",
+    glow:"#ffb43e"
   },
 
   lime:{
-    core:"#e6ffc0",
-    glow:"#9cff4a"
+    core:"#edffc7",
+    glow:"#9dff4c"
+  },
+
+  white:{
+    core:"#ffffff",
+    glow:"#d9f5ff"
   }
 };
+
+
+/* =========================================================
+   LIGHT PAD
+   ========================================================= */
 
 function lightPad(
   index,
   color="cyan",
   strength=.8,
-  duration=350
+  duration=350,
+  outer=false
 ){
 
-  if(index<0 || index>=64)return;
+  if(
+    index<0 ||
+    index>=64
+  )return;
 
-  const pad=pads[index];
-  const c=COLORS[color];
+
+  const pad=
+    pads[index];
+
+
+  const c=
+    COLORS[color];
+
 
   pad.style.setProperty(
     "--light",
-    `radial-gradient(circle at 50% 42%,
+
+    `radial-gradient(
+      circle at 50% 42%,
       ${c.core} 0%,
-      ${c.glow} 32%,
-      ${c.glow} 58%,
-      rgba(0,0,0,0) 100%)`
+      ${c.glow} 29%,
+      ${c.glow} 60%,
+      rgba(0,0,0,0) 100%
+    )`
   );
 
-  pad.style.setProperty("--glow",c.glow);
-  pad.style.setProperty("--fade",duration+"ms");
-  pad.style.setProperty("--power",strength);
 
-  clearTimeout(pad._lightTimer);
+  pad.style.setProperty(
+    "--glow",
+    c.glow
+  );
 
-  pad._lightTimer=setTimeout(()=>{
-    pad.style.setProperty("--power",0);
-  },Math.max(45,duration*.34));
+
+  pad.style.setProperty(
+    "--outer-glow",
+    outer
+      ?c.glow
+      :"transparent"
+  );
+
+
+  pad.style.setProperty(
+    "--outer-size",
+    outer
+      ?"11px"
+      :"0px"
+  );
+
+
+  pad.style.setProperty(
+    "--fade",
+    duration+"ms"
+  );
+
+
+  pad.style.setProperty(
+    "--power",
+    strength
+  );
+
+
+  clearTimeout(
+    pad._lightTimer
+  );
+
+
+  pad._lightTimer=
+    setTimeout(
+      ()=>{
+
+        pad.style.setProperty(
+          "--power",
+          0
+        );
+
+      },
+      Math.max(
+        55,
+        duration*.4
+      )
+    );
 }
 
-function cluster(center,color,strength=.65){
 
-  const row=Math.floor(center/8);
-  const col=center%8;
+/* =========================================================
+   LIGHT CLUSTER
+   ========================================================= */
 
-  const positions=[
-    [row,col],
-    [row-1,col],
-    [row+1,col],
-    [row,col-1],
-    [row,col+1]
+function cluster(
+  center,
+  color,
+  strength=.75,
+  large=false
+){
+
+  const row=
+    Math.floor(center/8);
+
+  const col=
+    center%8;
+
+
+  const offsets=
+    large
+    ?[
+      [0,0],
+
+      [-1,0],
+      [1,0],
+      [0,-1],
+      [0,1],
+
+      [-1,-1],
+      [-1,1],
+      [1,-1],
+      [1,1]
+    ]
+    :[
+      [0,0],
+      [-1,0],
+      [1,0],
+      [0,-1],
+      [0,1]
+    ];
+
+
+  offsets.forEach(
+    ([dr,dc],i)=>{
+
+      const r=row+dr;
+      const c=col+dc;
+
+
+      if(
+        r<0 ||
+        r>7 ||
+        c<0 ||
+        c>7
+      )return;
+
+
+      setTimeout(
+        ()=>{
+
+          lightPad(
+            r*8+c,
+            color,
+            i===0
+              ?strength
+              :strength*.62,
+            currentMode==="chill"
+              ?1100
+              :420,
+            currentMode==="neon"
+          );
+
+        },
+        i*14
+      );
+    }
+  );
+}
+
+
+/* =========================================================
+   LIGHT LINE
+   ========================================================= */
+
+function lineSweep(
+  row,
+  color="cyan",
+  reverse=false,
+  strength=.75
+){
+
+  const cells=[];
+
+
+  for(
+    let col=0;
+    col<8;
+    col++
+  ){
+
+    cells.push(
+      row*8+col
+    );
+  }
+
+
+  if(reverse){
+    cells.reverse();
+  }
+
+
+  cells.forEach(
+    (index,i)=>{
+
+      setTimeout(
+        ()=>{
+
+          lightPad(
+            index,
+            color,
+            strength,
+            310,
+            true
+          );
+
+        },
+        i*34
+      );
+    }
+  );
+}
+
+
+/* =========================================================
+   VERTICAL SWEEP
+   ========================================================= */
+
+function verticalSweep(
+  column,
+  color="violet",
+  reverse=false
+){
+
+  const cells=[];
+
+
+  for(
+    let row=0;
+    row<8;
+    row++
+  ){
+
+    cells.push(
+      row*8+column
+    );
+  }
+
+
+  if(reverse){
+    cells.reverse();
+  }
+
+
+  cells.forEach(
+    (index,i)=>{
+
+      setTimeout(
+        ()=>{
+
+          lightPad(
+            index,
+            color,
+            .72,
+            300,
+            true
+          );
+
+        },
+        i*32
+      );
+    }
+  );
+}
+
+
+/* =========================================================
+   TRAIL
+   ========================================================= */
+
+function trail(
+  path,
+  color="cyan",
+  speed=42
+){
+
+  path.forEach(
+    (index,i)=>{
+
+      setTimeout(
+        ()=>{
+
+          lightPad(
+            index,
+            color,
+            .85,
+            330,
+            true
+          );
+
+        },
+        i*speed
+      );
+    }
+  );
+}
+
+
+/* =========================================================
+   BURST
+   ========================================================= */
+
+function burst(
+  colorA="cyan",
+  colorB="magenta",
+  density=24
+){
+
+  const order=[
+    27,28,35,36,
+
+    18,21,42,45,
+    19,20,29,34,
+    43,44,26,37,
+
+    9,14,49,54,
+    10,13,50,53,
+
+    0,7,56,63,
+
+    2,5,16,23,
+    40,47,58,61
   ];
 
-  positions.forEach((p,i)=>{
 
-    const [r,c]=p;
+  order
+  .slice(
+    0,
+    Math.min(
+      density,
+      order.length
+    )
+  )
+  .forEach(
+    (index,i)=>{
 
-    if(r>=0 && r<8 && c>=0 && c<8){
+      setTimeout(
+        ()=>{
 
-      setTimeout(()=>{
-        lightPad(
-          r*8+c,
-          color,
-          i===0?strength:strength*.32,
-          currentMode==="chill"?1000:420
-        );
-      },i*22);
+          lightPad(
+            index,
+            i%2
+              ?colorA
+              :colorB,
+            .92,
+            420,
+            true
+          );
+
+        },
+        i*11
+      );
     }
-  });
+  );
 }
+
+
+/* =========================================================
+   BASS MOVEMENT
+   ========================================================= */
+
+function bassMotion(
+  start,
+  length,
+  color="blue",
+  reverse=false
+){
+
+  const row=
+    Math.floor(start/8);
+
+
+  const path=[];
+
+
+  for(
+    let i=0;
+    i<length;
+    i++
+  ){
+
+    path.push(
+      row*8+i
+    );
+  }
+
+
+  if(reverse){
+    path.reverse();
+  }
+
+
+  trail(
+    path,
+    color,
+    26
+  );
+}
+
 
 /* =========================================================
    MODE
@@ -906,501 +1987,2550 @@ function cluster(center,color,strength=.65){
 
 let currentMode="neon";
 
+
 function setMode(mode){
 
-  if(mode!=="neon" && mode!=="chill")return;
+  if(
+    mode!=="neon" &&
+    mode!=="chill"
+  )return;
+
 
   currentMode=mode;
 
-  document.body.className=mode;
 
-  document.querySelectorAll(".mode[data-mode]")
-    .forEach(button=>{
+  document.body.className=
+    mode;
+
+
+  document
+  .querySelectorAll(
+    ".mode[data-mode]"
+  )
+  .forEach(
+    button=>{
+
       button.classList.toggle(
         "selected",
         button.dataset.mode===mode
       );
-    });
+    }
+  );
+
 
   modeLabel.textContent=
     mode==="neon"
       ?"NEON · 112"
       :"CHILL · 88";
+
+
+  sequenceStep=0;
+
+  songStartStep=0;
 }
 
-document.querySelectorAll(".mode[data-mode]")
-.forEach(button=>{
 
-  button.addEventListener("click",async()=>{
+document
+.querySelectorAll(
+  ".mode[data-mode]"
+)
+.forEach(
+  button=>{
 
-    await initAudio();
-    setMode(button.dataset.mode);
+    button.addEventListener(
+      "click",
+      async()=>{
 
-    sequenceStep=0;
-  });
-});
+        await initAudio();
+
+        setMode(
+          button.dataset.mode
+        );
+      }
+    );
+  }
+);
+
 
 /* =========================================================
    USER PERFORMANCE
    ========================================================= */
 
-const activePointers=new Map();
+const activePointers=
+  new Map();
+
 
 function padFrequency(index){
 
-  const scale=scales[currentMode];
+  const scale=
+    scales[currentMode];
 
-  const column=index%8;
-  const row=Math.floor(index/8);
 
-  const degree=(column+(7-row)*2)%scale.length;
+  const column=
+    index%8;
 
-  let freq=scale[degree];
 
-  if(row<3)freq*=2;
-  if(row>5)freq/=2;
+  const row=
+    Math.floor(index/8);
+
+
+  const degree=
+    (
+      column+
+      (7-row)*2
+    )%scale.length;
+
+
+  let freq=
+    scale[degree];
+
+
+  if(row<3){
+    freq*=2;
+  }
+
+
+  if(row>5){
+    freq/=2;
+  }
+
 
   return freq;
 }
 
-async function triggerUserPad(index){
+
+/* =========================================================
+   USER TRIGGER
+   ========================================================= */
+
+async function triggerUserPad(
+  index
+){
 
   await initAudio();
 
-  const freq=padFrequency(index);
+
+  const freq=
+    padFrequency(index);
+
 
   if(currentMode==="chill"){
 
-    softKey(freq,ctx.currentTime,.075);
+    softKey(
+      freq,
+      ctx.currentTime,
+      .075
+    );
+
+
+    const colors=[
+      "cyan",
+      "blue",
+      "violet"
+    ];
+
 
     lightPad(
       index,
-      ["cyan","blue","violet"][index%3],
-      .7,
-      1100
+      colors[index%3],
+      .72,
+      1150
     );
 
-    const neighbour=
-      index%8<7 ? index+1 : index-1;
 
-    setTimeout(()=>{
-      lightPad(
-        neighbour,
-        "blue",
-        .18,
-        900
-      );
-    },80);
+    const neighbour=
+      index%8<7
+        ?index+1
+        :index-1;
+
+
+    setTimeout(
+      ()=>{
+
+        lightPad(
+          neighbour,
+          "blue",
+          .18,
+          950
+        );
+
+      },
+      80
+    );
 
   }else{
 
-    pluck(freq,ctx.currentTime,.11);
+    const section=
+      getNeonSection();
+
+
+    if(
+      section==="DROP" ||
+      section==="BUILD"
+    ){
+
+      lead(
+        freq,
+        ctx.currentTime,
+        .075
+      );
+
+    }else{
+
+      pluck(
+        freq,
+        ctx.currentTime,
+        .105
+      );
+    }
+
 
     const palette=[
       "cyan",
       "blue",
       "violet",
       "magenta",
-      "lime"
+      "lime",
+      "amber"
     ];
+
 
     lightPad(
       index,
-      palette[index%palette.length],
-      .95,
-      330
+      palette[
+        index%palette.length
+      ],
+      1,
+      350,
+      true
     );
+
+
+    if(
+      section==="DROP"
+    ){
+
+      const row=
+        Math.floor(index/8);
+
+
+      const col=
+        index%8;
+
+
+      [
+        [0,1],
+        [0,-1],
+        [1,0],
+        [-1,0]
+      ]
+      .forEach(
+        ([dr,dc],i)=>{
+
+          const r=row+dr;
+          const c=col+dc;
+
+
+          if(
+            r>=0 &&
+            r<8 &&
+            c>=0 &&
+            c<8
+          ){
+
+            setTimeout(
+              ()=>{
+
+                lightPad(
+                  r*8+c,
+                  palette[
+                    (index+i+1)%
+                    palette.length
+                  ],
+                  .38,
+                  260
+                );
+
+              },
+              28+i*14
+            );
+          }
+        }
+      );
+    }
   }
 }
 
-pads.forEach((pad,index)=>{
 
-  pad.addEventListener("pointerdown",async e=>{
+/* =========================================================
+   POINTER EVENTS
+   ========================================================= */
 
-    e.preventDefault();
+pads.forEach(
+  (pad,index)=>{
 
-    pad.setPointerCapture(e.pointerId);
-    activePointers.set(e.pointerId,index);
+    pad.addEventListener(
+      "pointerdown",
+      async e=>{
 
-    pad.classList.add("active");
+        e.preventDefault();
 
-    await triggerUserPad(index);
-  });
 
-  pad.addEventListener("pointermove",async e=>{
+        try{
 
-    if(!activePointers.has(e.pointerId))return;
+          pad.setPointerCapture(
+            e.pointerId
+          );
 
-    const element=document.elementFromPoint(
-      e.clientX,
-      e.clientY
+        }catch(err){}
+
+
+        activePointers.set(
+          e.pointerId,
+          index
+        );
+
+
+        pad.classList.add(
+          "active"
+        );
+
+
+        await triggerUserPad(
+          index
+        );
+      }
     );
 
-    if(!element || !element.classList.contains("pad"))
-      return;
 
-    const next=Number(element.dataset.index);
-    const previous=activePointers.get(e.pointerId);
+    pad.addEventListener(
+      "pointermove",
+      async e=>{
 
-    if(next!==previous){
+        if(
+          !activePointers.has(
+            e.pointerId
+          )
+        )return;
 
-      activePointers.set(e.pointerId,next);
 
-      await triggerUserPad(next);
+        const element=
+          document.elementFromPoint(
+            e.clientX,
+            e.clientY
+          );
+
+
+        if(
+          !element ||
+          !element.classList.contains(
+            "pad"
+          )
+        )return;
+
+
+        const next=
+          Number(
+            element.dataset.index
+          );
+
+
+        const previous=
+          activePointers.get(
+            e.pointerId
+          );
+
+
+        if(next!==previous){
+
+          activePointers.set(
+            e.pointerId,
+            next
+          );
+
+
+          await triggerUserPad(
+            next
+          );
+        }
+      }
+    );
+
+
+    function release(e){
+
+      activePointers.delete(
+        e.pointerId
+      );
+
+      pad.classList.remove(
+        "active"
+      );
     }
-  });
 
-  function release(e){
 
-    activePointers.delete(e.pointerId);
-    pad.classList.remove("active");
+    pad.addEventListener(
+      "pointerup",
+      release
+    );
+
+
+    pad.addEventListener(
+      "pointercancel",
+      release
+    );
   }
+);
 
-  pad.addEventListener("pointerup",release);
-  pad.addEventListener("pointercancel",release);
-});
 
 /* =========================================================
    SEQUENCER
    ========================================================= */
 
 let autoPlaying=false;
+
 let timer=null;
 
 let nextStepTime=0;
+
 let sequenceStep=0;
 
+let songStartStep=0;
+
+
+/* =========================================================
+   BPM
+   ========================================================= */
+
 function bpm(){
-  return currentMode==="neon"?112:88;
+
+  return currentMode==="neon"
+    ?112
+    :88;
 }
 
+
 function stepDuration(){
+
   return 60/bpm()/4;
 }
 
+
 function currentBar(){
-  return Math.floor(sequenceStep/16);
+
+  return Math.floor(
+    sequenceStep/16
+  );
 }
 
-function progressionIndex(){
-  return currentBar()%4;
+
+/* =========================================================
+   NEON SONG STRUCTURE
+
+   44 bars ≈ 94 sec @112 BPM
+
+   0-3    AWAKEN
+   4-9    GROOVE A
+   10-15  MELODY
+   16-19  BREAK
+   20-27  GROOVE B
+   28-31  BUILD
+   32-39  DROP
+   40-43  AFTERGLOW
+========================================================= */
+
+function getNeonSection(){
+
+  const bar=
+    currentBar()%44;
+
+
+  if(bar<4)
+    return "AWAKEN";
+
+
+  if(bar<10)
+    return "GROOVE A";
+
+
+  if(bar<16)
+    return "MELODY";
+
+
+  if(bar<20)
+    return "BREAK";
+
+
+  if(bar<28)
+    return "GROOVE B";
+
+
+  if(bar<32)
+    return "BUILD";
+
+
+  if(bar<40)
+    return "DROP";
+
+
+  return "AFTERGLOW";
 }
 
-function neonStep(step,time){
 
-  const s=step%16;
-  const bar=currentBar();
+/* =========================================================
+   SECTION DISPLAY
+   ========================================================= */
 
-  const chord=
-    progressions.neon[progressionIndex()];
+function updateSectionLabel(){
 
-  /* Kick */
+  if(currentMode==="chill"){
 
-  if(s===0 || s===8){
+    const bar=
+      currentBar()%32;
 
-    kick(time);
 
-    lightPad(
-      59-(bar%3),
-      "cyan",
-      .85,
-      260
-    );
+    if(bar<6)
+      sectionLabel.textContent="OPEN";
+
+    else if(bar<14)
+      sectionLabel.textContent="SETTLE";
+
+    else if(bar<22)
+      sectionLabel.textContent="FLOW";
+
+    else if(bar<28)
+      sectionLabel.textContent="FLOAT";
+
+    else
+      sectionLabel.textContent="RETURN";
+
+  }else{
+
+    sectionLabel.textContent=
+      getNeonSection();
   }
+}
 
-  /* Clap */
 
-  if(s===4 || s===12){
+/* =========================================================
+   NEON : CHORD INDEX
+   ========================================================= */
 
-    clap(time);
+function neonChord(){
 
-    lightPad(24,"magenta",.5,250);
-    lightPad(31,"magenta",.5,250);
-  }
+  const bar=
+    currentBar()%44;
 
-  /* Hats */
 
-  if(s%2===0){
+  let progression=
+    neonProgressionA;
 
-    hat(time,.033);
-
-    lightPad(
-      (s/2)%8,
-      "amber",
-      .28,
-      130
-    );
-  }
-
-  /* Bass */
 
   if(
-    s===0 ||
-    s===3 ||
-    s===8 ||
-    s===11
+    bar>=20 &&
+    bar<32
   ){
 
-    const root=chord[0];
-
-    bass(root,time,.12);
-
-    const positions=[49,51,54,52];
-
-    lightPad(
-      positions[progressionIndex()],
-      "blue",
-      .72,
-      340
-    );
+    progression=
+      neonProgressionB;
   }
 
-  /* Arpeggio */
 
-  if(s%2===1){
+  if(
+    bar>=32 &&
+    bar<40
+  ){
 
-    const scale=scales.neon;
+    progression=
+      neonProgressionA;
+  }
 
-    const pattern=[
-      0,2,4,1,5,3,6,2
-    ];
 
-    const note=
-      scale[
-        pattern[
-          Math.floor(s/2)%pattern.length
-        ]
-      ];
+  return progression[
+    bar%4
+  ];
+}
 
-    pluck(note,time,.075);
 
-    const path=[
-      10,19,12,29,
-      22,15,30,7
-    ];
+/* =========================================================
+   NEON : AWAKEN
+   ========================================================= */
 
-    lightPad(
-      path[Math.floor(s/2)],
+function neonAwaken(
+  s,
+  bar,
+  time
+){
+
+  const chord=
+    neonChord();
+
+
+  if(s===0){
+
+    airPad(
+      chord.map(
+        n=>n*2
+      ),
+      time,
+      .016,
+      2
+    );
+
+
+    cluster(
+      [
+        27,
+        20,
+        36,
+        29
+      ][bar%4],
       [
         "cyan",
         "violet",
         "blue",
         "magenta"
       ][bar%4],
-      .72,
-      300
+      .34,
+      false
     );
   }
 
-  /* Chord every 2 bars */
 
-  if(s===0 && bar%2===1){
+  const motifSteps=[
+    3,
+    7,
+    11,
+    15
+  ];
 
-    chord.forEach((freq,i)=>{
 
-      pluck(
-        freq*2,
-        time+i*.012,
-        .045
-      );
-    });
+  if(
+    motifSteps.includes(s)
+  ){
 
-    cluster(
-      [27,28,35,36][progressionIndex()],
-      "violet",
-      .48
+    const motif=[
+      0,
+      2,
+      4,
+      2
+    ];
+
+
+    const index=
+      motif[
+        motifSteps.indexOf(s)
+      ];
+
+
+    pluck(
+      scales.neon[index],
+      time,
+      .06,
+      .75
     );
-  }
 
-  /* occasional fill */
 
-  if(s===14 && bar%4===3){
+    const path=[
+      10,
+      19,
+      28,
+      21
+    ];
 
-    [6,13,20,27,34,41,48,55]
-      .forEach((p,i)=>{
-
-        setTimeout(()=>{
-          lightPad(
-            p,
-            i%2?"cyan":"magenta",
-            .55,
-            260
-          );
-        },i*38);
-      });
-  }
-}
-
-function chillStep(step,time){
-
-  const s=step%16;
-  const bar=currentBar();
-
-  const chord=
-    progressions.chill[progressionIndex()];
-
-  /* restrained pulse */
-
-  if(s===0){
-
-    kick(time);
 
     lightPad(
-      58,
-      "blue",
-      .32,
-      950
+      path[
+        motifSteps.indexOf(s)
+      ],
+      bar%2
+        ?"violet"
+        :"cyan",
+      .62,
+      480,
+      true
     );
   }
 
-  if(s===8 && bar%2===0){
 
-    kick(time);
-
-    lightPad(
-      61,
-      "cyan",
-      .22,
-      1000
-    );
-  }
-
-  /* soft bass */
-
-  if(s===0 || s===8){
+  if(
+    bar>=2 &&
+    s===8
+  ){
 
     bass(
       chord[0],
       time,
-      .075
+      .07,
+      .5
     );
 
-    lightPad(
-      [49,50,53,52][progressionIndex()],
+
+    bassMotion(
+      48,
+      5,
       "blue",
+      bar%2===1
+    );
+  }
+}
+
+
+/* =========================================================
+   NEON : GROOVE A
+   ========================================================= */
+
+function neonGrooveA(
+  s,
+  bar,
+  time
+){
+
+  const chord=
+    neonChord();
+
+
+  if(
+    s===0 ||
+    s===8
+  ){
+
+    kick(
+      time,
+      .67
+    );
+
+
+    cluster(
+      s===0
+        ?58
+        :61,
+      "cyan",
+      .76,
+      false
+    );
+  }
+
+
+  if(
+    s===4 ||
+    s===12
+  ){
+
+    clap(
+      time,
+      .095
+    );
+
+
+    lightPad(
+      24,
+      "magenta",
+      .7,
+      280,
+      true
+    );
+
+
+    lightPad(
+      31,
+      "magenta",
+      .7,
+      280,
+      true
+    );
+
+
+    lightPad(
+      27,
+      "violet",
       .38,
+      250
+    );
+
+
+    lightPad(
+      28,
+      "violet",
+      .38,
+      250
+    );
+  }
+
+
+  if(s%2===0){
+
+    hat(
+      time,
+      .027
+    );
+
+
+    lightPad(
+      (s/2)%8,
+      "amber",
+      .4,
+      170
+    );
+  }
+
+
+  const bassSteps=[
+    0,
+    3,
+    7,
+    10,
+    14
+  ];
+
+
+  if(
+    bassSteps.includes(s)
+  ){
+
+    const bassPattern=[
+      1,
+      1,
+      2,
+      1,
+      1.5
+    ];
+
+
+    const freq=
+      chord[0]*
+      bassPattern[
+        bassSteps.indexOf(s)
+      ];
+
+
+    bass(
+      freq,
+      time,
+      .105,
+      .34
+    );
+
+
+    const pos=[
+      48,
+      50,
+      53,
+      55,
+      51
+    ];
+
+
+    lightPad(
+      pos[
+        bassSteps.indexOf(s)
+      ],
+      "blue",
+      .78,
+      300,
+      true
+    );
+  }
+
+
+  if(
+    s===2 ||
+    s===6 ||
+    s===10 ||
+    s===14
+  ){
+
+    const pattern=[
+      0,
+      2,
+      4,
+      5
+    ];
+
+
+    const i=
+      (
+        pattern[
+          [
+            2,
+            6,
+            10,
+            14
+          ].indexOf(s)
+        ]+
+        bar
+      )%
+      scales.neon.length;
+
+
+    pluck(
+      scales.neon[i],
+      time,
+      .055
+    );
+
+
+    const positions=[
+      11,
+      18,
+      29,
+      22
+    ];
+
+
+    cluster(
+      positions[
+        [
+          2,
+          6,
+          10,
+          14
+        ].indexOf(s)
+      ],
+      bar%2
+        ?"cyan"
+        :"violet",
+      .42,
+      false
+    );
+  }
+}
+
+
+/* =========================================================
+   NEON : MELODY
+   ========================================================= */
+
+function neonMelody(
+  s,
+  bar,
+  time
+){
+
+  neonGrooveA(
+    s,
+    bar,
+    time
+  );
+
+
+  const melodySteps=[
+    1,
+    5,
+    7,
+    9,
+    13
+  ];
+
+
+  if(
+    melodySteps.includes(s)
+  ){
+
+    const motifA=[
+      4,
+      5,
+      7,
+      5,
+      2
+    ];
+
+
+    const motifB=[
+      2,
+      4,
+      5,
+      7,
+      4
+    ];
+
+
+    const motif=
+      bar%2
+        ?motifB
+        :motifA;
+
+
+    const i=
+      melodySteps.indexOf(s);
+
+
+    lead(
+      scales.neon[
+        motif[i]
+      ],
+      time,
+      .057
+    );
+
+
+    const paths=[
+      8,
+      17,
+      26,
+      19,
+      12
+    ];
+
+
+    lightPad(
+      paths[i],
+      i%2
+        ?"magenta"
+        :"cyan",
+      .95,
+      380,
+      true
+    );
+
+
+    if(i>0){
+
+      lightPad(
+        paths[i]-1,
+        "violet",
+        .34,
+        300
+      );
+    }
+  }
+
+
+  if(
+    s===15 &&
+    bar%2===1
+  ){
+
+    lineSweep(
+      bar%8,
+      bar%4
+        ?"cyan"
+        :"magenta",
+      bar%2===0,
+      .62
+    );
+  }
+}
+
+
+/* =========================================================
+   NEON : BREAK
+   ========================================================= */
+
+function neonBreak(
+  s,
+  bar,
+  time
+){
+
+  const chord=
+    neonChord();
+
+
+  if(s===0){
+
+    airPad(
+      chord.map(
+        n=>n*2
+      ),
+      time,
+      .026,
+      2.1
+    );
+
+
+    burst(
+      "violet",
+      "blue",
+      10
+    );
+  }
+
+
+  if(
+    s===0 ||
+    s===8
+  ){
+
+    bass(
+      chord[0],
+      time,
+      .055,
+      .7
+    );
+
+
+    bassMotion(
+      48,
+      8,
+      "blue",
+      bar%2===1
+    );
+  }
+
+
+  const breakMelody=[
+    2,
+    6,
+    10,
+    14
+  ];
+
+
+  if(
+    breakMelody.includes(s)
+  ){
+
+    const motif=[
+      7,
+      5,
+      4,
+      2
+    ];
+
+
+    const i=
+      breakMelody.indexOf(s);
+
+
+    lead(
+      scales.neon[
+        motif[i]
+      ]/2,
+      time,
+      .045
+    );
+
+
+    const path=[
+      6,
+      13,
+      20,
+      27,
+      34,
+      41
+    ];
+
+
+    trail(
+      bar%2
+        ?path.slice().reverse()
+        :path,
+      bar%2
+        ?"violet"
+        :"cyan",
+      45
+    );
+  }
+
+
+  if(
+    s===12 &&
+    bar>=18
+  ){
+
+    hat(
+      time,
+      .018,
+      true
+    );
+
+
+    verticalSweep(
+      bar%8,
+      "magenta",
+      true
+    );
+  }
+}
+
+
+/* =========================================================
+   NEON : GROOVE B
+   ========================================================= */
+
+function neonGrooveB(
+  s,
+  bar,
+  time
+){
+
+  const chord=
+    neonChord();
+
+
+  const kicks=[
+    0,
+    6,
+    8,
+    11
+  ];
+
+
+  if(
+    kicks.includes(s)
+  ){
+
+    kick(
+      time,
+      s===0
+        ?.7
+        :.52
+    );
+
+
+    const kickPads=[
+      56,
+      59,
+      63,
+      60
+    ];
+
+
+    cluster(
+      kickPads[
+        kicks.indexOf(s)
+      ],
+      "cyan",
+      .72,
+      false
+    );
+  }
+
+
+  if(
+    s===4 ||
+    s===12
+  ){
+
+    clap(
+      time,
+      .1
+    );
+
+
+    [
+      24,
+      31,
+      25,
+      30
+    ]
+    .forEach(
+      p=>{
+
+        lightPad(
+          p,
+          "magenta",
+          .58,
+          270,
+          true
+        );
+      }
+    );
+  }
+
+
+  if(
+    s%2===0 ||
+    s===15
+  ){
+
+    hat(
+      time,
+      s===15
+        ?.04
+        :.025,
+      s===15
+    );
+
+
+    lightPad(
+      (
+        Math.floor(
+          s/2
+        )+
+        bar
+      )%8,
+      "amber",
+      .42,
+      150
+    );
+  }
+
+
+  const bassSteps=[
+    0,
+    2,
+    5,
+    8,
+    10,
+    13,
+    15
+  ];
+
+
+  if(
+    bassSteps.includes(s)
+  ){
+
+    const ratios=[
+      1,
+      1,
+      1.5,
+      1,
+      2,
+      1.5,
+      1
+    ];
+
+
+    const i=
+      bassSteps.indexOf(s);
+
+
+    bass(
+      chord[0]*
+      ratios[i],
+      time,
+      .1,
+      .27
+    );
+
+
+    const bassPads=[
+      48,
+      49,
+      51,
+      55,
+      54,
+      52,
+      50
+    ];
+
+
+    lightPad(
+      bassPads[i],
+      "blue",
+      .82,
+      260,
+      true
+    );
+  }
+
+
+  if(
+    s===3 ||
+    s===7 ||
+    s===11 ||
+    s===15
+  ){
+
+    const arp=[
+      0,
+      4,
+      2,
+      6
+    ];
+
+
+    const i=[
+      3,
+      7,
+      11,
+      15
+    ].indexOf(s);
+
+
+    pluck(
+      scales.neon[
+        (
+          arp[i]+bar
+        )%
+        scales.neon.length
+      ],
+      time,
+      .06,
+      1.1
+    );
+
+
+    const trails=[
+      [9,10,11],
+      [22,21,20],
+      [34,35,36],
+      [47,46,45]
+    ];
+
+
+    trail(
+      trails[i],
+      i%2
+        ?"violet"
+        :"cyan",
+      30
+    );
+  }
+
+
+  if(
+    s===14 &&
+    bar%2===1
+  ){
+
+    verticalSweep(
+      (bar+2)%8,
+      "magenta",
+      bar%4===1
+    );
+  }
+}
+
+
+/* =========================================================
+   NEON : BUILD
+   ========================================================= */
+
+function neonBuild(
+  s,
+  bar,
+  time
+){
+
+  const buildBar=
+    bar-28;
+
+
+  if(
+    s%4===0
+  ){
+
+    kick(
+      time,
+      .55+
+      buildBar*.035
+    );
+
+
+    cluster(
+      56+
+      ((s/4+buildBar)%8),
+      "cyan",
+      .72,
+      buildBar>=2
+    );
+  }
+
+
+  const hatDivision=
+    buildBar<1
+      ?4
+      :buildBar<2
+        ?2
+        :1;
+
+
+  if(
+    s%hatDivision===0
+  ){
+
+    hat(
+      time,
+      .018+
+      buildBar*.008
+    );
+
+
+    lightPad(
+      (
+        s+
+        buildBar*3
+      )%8,
+      "amber",
+      .3+
+      buildBar*.1,
+      120
+    );
+  }
+
+
+  if(
+    s===0 ||
+    s===8
+  ){
+
+    const chord=
+      neonChord();
+
+
+    bass(
+      chord[0],
+      time,
+      .08+
+      buildBar*.01,
+      .3
+    );
+  }
+
+
+  if(
+    s%2===0
+  ){
+
+    const index=
+      (
+        s/2+
+        buildBar*2
+      )%
+      scales.neon.length;
+
+
+    pluck(
+      scales.neon[index],
+      time,
+      .045+
+      buildBar*.006,
+      1.2
+    );
+
+
+    const spiral=[
+      27,
+      28,
+      36,
+      35,
+      26,
+      19,
+      20,
+      21,
+      29,
+      37,
+      45,
+      44,
+      43,
+      42,
+      34,
+      33
+    ];
+
+
+    lightPad(
+      spiral[
+        (
+          s/2+
+          buildBar*4
+        )%
+        spiral.length
+      ],
+      buildBar%2
+        ?"magenta"
+        :"cyan",
+      .7+
+      buildBar*.06,
+      240,
+      true
+    );
+  }
+
+
+  if(
+    s===15
+  ){
+
+    if(buildBar===0){
+
+      lineSweep(
+        2,
+        "violet"
+      );
+
+    }else if(buildBar===1){
+
+      lineSweep(
+        5,
+        "cyan",
+        true
+      );
+
+    }else if(buildBar===2){
+
+      verticalSweep(
+        2,
+        "magenta"
+      );
+
+      verticalSweep(
+        5,
+        "cyan",
+        true
+      );
+
+    }else{
+
+      burst(
+        "cyan",
+        "magenta",
+        24
+      );
+    }
+  }
+}
+
+
+/* =========================================================
+   NEON : DROP
+   ========================================================= */
+
+function neonDrop(
+  s,
+  bar,
+  time
+){
+
+  const chord=
+    neonChord();
+
+
+  /* FOUR-ON-FLOOR + SYNCOPATION */
+
+  if(
+    s===0 ||
+    s===4 ||
+    s===8 ||
+    s===12 ||
+    (
+      bar%2===1 &&
+      s===14
+    )
+  ){
+
+    kick(
+      time,
+      s%4===0
+        ?.72
+        :.48
+    );
+
+
+    const centers=[
+      56,
+      63,
+      59,
+      60
+    ];
+
+
+    cluster(
+      centers[
+        Math.floor(s/4)%4
+      ],
+      "cyan",
+      .92,
+      true
+    );
+  }
+
+
+  if(
+    s===4 ||
+    s===12
+  ){
+
+    clap(
+      time,
+      .115
+    );
+
+
+    [
+      16,
+      23,
+      24,
+      31,
+      32,
+      39
+    ]
+    .forEach(
+      (p,i)=>{
+
+        lightPad(
+          p,
+          i%2
+            ?"magenta"
+            :"violet",
+          .72,
+          280,
+          true
+        );
+      }
+    );
+  }
+
+
+  /* FAST HATS */
+
+  if(s%2===0){
+
+    hat(
+      time,
+      .03
+    );
+
+
+    const top=
+      (
+        s/2+
+        bar
+      )%8;
+
+
+    lightPad(
+      top,
+      "amber",
+      .55,
+      145,
+      true
+    );
+
+
+    lightPad(
+      8+((7-top)%8),
+      "lime",
+      .3,
+      130
+    );
+  }
+
+
+  /* BASS */
+
+  const bassSteps=[
+    0,
+    2,
+    5,
+    7,
+    8,
+    10,
+    13,
+    15
+  ];
+
+
+  if(
+    bassSteps.includes(s)
+  ){
+
+    const pattern=[
+      1,
+      1,
+      1.5,
+      2,
+      1,
+      1.5,
+      1,
+      2
+    ];
+
+
+    const i=
+      bassSteps.indexOf(s);
+
+
+    bass(
+      chord[0]*
+      pattern[i],
+      time,
+      .11,
+      .25
+    );
+
+
+    const p=[
+      48,
+      49,
+      51,
+      55,
+      63,
+      61,
+      58,
+      56
+    ][i];
+
+
+    lightPad(
+      p,
+      "blue",
+      .95,
+      260,
+      true
+    );
+
+
+    if(i%2===0){
+
+      const row=
+        Math.floor(p/8);
+
+
+      lineSweep(
+        row,
+        "blue",
+        i%4===0,
+        .38
+      );
+    }
+  }
+
+
+  /* ARP */
+
+  if(s%2===1){
+
+    const pattern=[
+      0,
+      4,
+      2,
+      5,
+      7,
+      4,
+      6,
+      2
+    ];
+
+
+    const i=
+      Math.floor(s/2);
+
+
+    pluck(
+      scales.neon[
+        pattern[i]
+      ],
+      time,
+      .057,
+      1.15
+    );
+
+
+    const path=[
+      10,
+      19,
+      28,
+      21,
+      14,
+      23,
+      30,
+      37
+    ];
+
+
+    const p=
+      path[
+        (
+          i+
+          bar
+        )%
+        path.length
+      ];
+
+
+    lightPad(
+      p,
+      i%2
+        ?"magenta"
+        :"cyan",
+      .9,
+      280,
+      true
+    );
+
+
+    const next=
+      p%8<7
+        ?p+1
+        :p-1;
+
+
+    lightPad(
+      next,
+      "violet",
+      .32,
+      230
+    );
+  }
+
+
+  /* LEAD MOTIF */
+
+  const leadSteps=[
+    1,
+    6,
+    9,
+    14
+  ];
+
+
+  if(
+    leadSteps.includes(s)
+  ){
+
+    const motifs=[
+      [4,5,7,4],
+      [7,5,4,2]
+    ];
+
+
+    const motif=
+      motifs[bar%2];
+
+
+    const i=
+      leadSteps.indexOf(s);
+
+
+    lead(
+      scales.neon[
+        motif[i]
+      ],
+      time,
+      .055
+    );
+
+
+    const leadPads=[
+      9,
+      14,
+      18,
+      13
+    ];
+
+
+    cluster(
+      leadPads[i],
+      i%2
+        ?"magenta"
+        :"lime",
+      .65,
+      false
+    );
+  }
+
+
+  /* BIG SECTION ACCENTS */
+
+  if(
+    s===0 &&
+    (
+      bar===32 ||
+      bar===36
+    )
+  ){
+
+    burst(
+      "cyan",
+      "magenta",
+      bar===32
+        ?30
+        :26
+    );
+  }
+
+
+  if(
+    s===15 &&
+    bar%2===1
+  ){
+
+    if(bar%4===1){
+
+      lineSweep(
+        3,
+        "magenta",
+        false,
+        .85
+      );
+
+
+      lineSweep(
+        4,
+        "cyan",
+        true,
+        .85
+      );
+
+    }else{
+
+      verticalSweep(
+        3,
+        "violet"
+      );
+
+
+      verticalSweep(
+        4,
+        "cyan",
+        true
+      );
+    }
+  }
+}
+
+
+/* =========================================================
+   NEON : AFTERGLOW
+   ========================================================= */
+
+function neonAfterglow(
+  s,
+  bar,
+  time
+){
+
+  const chord=
+    neonChord();
+
+
+  if(s===0){
+
+    airPad(
+      chord.map(
+        n=>n*2
+      ),
+      time,
+      .02,
+      2.2
+    );
+
+
+    cluster(
+      [
+        27,
+        36,
+        20,
+        29
+      ][bar%4],
+      bar%2
+        ?"violet"
+        :"cyan",
+      .4,
+      false
+    );
+  }
+
+
+  if(
+    s===0 ||
+    s===8
+  ){
+
+    bass(
+      chord[0],
+      time,
+      .06,
+      .55
+    );
+  }
+
+
+  const motifSteps=[
+    3,
+    7,
+    11,
+    15
+  ];
+
+
+  if(
+    motifSteps.includes(s)
+  ){
+
+    const motif=[
+      0,
+      2,
+      4,
+      2
+    ];
+
+
+    const i=
+      motifSteps.indexOf(s);
+
+
+    pluck(
+      scales.neon[
+        motif[i]
+      ],
+      time,
+      .052,
+      .7
+    );
+
+
+    const original=[
+      10,
+      19,
+      28,
+      21
+    ];
+
+
+    lightPad(
+      original[i],
+      i%2
+        ?"violet"
+        :"cyan",
+      .6,
+      500,
+      true
+    );
+  }
+
+
+  if(
+    s===12 &&
+    bar===43
+  ){
+
+    trail(
+      [
+        63,
+        54,
+        45,
+        36,
+        27,
+        18,
+        9,
+        0
+      ],
+      "cyan",
+      60
+    );
+  }
+}
+
+
+/* =========================================================
+   NEON ROUTER
+   ========================================================= */
+
+function neonStep(
+  step,
+  time
+){
+
+  const s=
+    step%16;
+
+
+  const bar=
+    Math.floor(step/16)%44;
+
+
+  const section=
+    getNeonSection();
+
+
+  if(section==="AWAKEN"){
+
+    neonAwaken(
+      s,
+      bar,
+      time
+    );
+
+  }else if(
+    section==="GROOVE A"
+  ){
+
+    neonGrooveA(
+      s,
+      bar,
+      time
+    );
+
+  }else if(
+    section==="MELODY"
+  ){
+
+    neonMelody(
+      s,
+      bar,
+      time
+    );
+
+  }else if(
+    section==="BREAK"
+  ){
+
+    neonBreak(
+      s,
+      bar,
+      time
+    );
+
+  }else if(
+    section==="GROOVE B"
+  ){
+
+    neonGrooveB(
+      s,
+      bar,
+      time
+    );
+
+  }else if(
+    section==="BUILD"
+  ){
+
+    neonBuild(
+      s,
+      bar,
+      time
+    );
+
+  }else if(
+    section==="DROP"
+  ){
+
+    neonDrop(
+      s,
+      bar,
+      time
+    );
+
+  }else{
+
+    neonAfterglow(
+      s,
+      bar,
+      time
+    );
+  }
+}
+
+
+/* =========================================================
+   CHILL
+========================================================= */
+
+function chillStep(
+  step,
+  time
+){
+
+  const s=
+    step%16;
+
+
+  const bar=
+    Math.floor(step/16)%32;
+
+
+  const chord=
+    chillProgression[
+      bar%4
+    ];
+
+
+  /* AIR */
+
+  if(s===0){
+
+    airPad(
+      chord.slice(1),
+      time,
+      .018,
+      2.1
+    );
+
+
+    const centers=[
+      18,
+      21,
+      34,
+      37
+    ];
+
+
+    cluster(
+      centers[bar%4],
+      bar%2
+        ?"violet"
+        :"cyan",
+      .3,
+      false
+    );
+  }
+
+
+  /* KICK */
+
+  if(
+    s===0 &&
+    bar>=4
+  ){
+
+    kick(
+      time,
+      .38
+    );
+
+
+    lightPad(
+      58,
+      "blue",
+      .28,
+      950
+    );
+  }
+
+
+  if(
+    s===8 &&
+    bar>=8 &&
+    bar<24
+  ){
+
+    kick(
+      time,
+      .3
+    );
+
+
+    lightPad(
+      61,
+      "cyan",
+      .2,
+      1000
+    );
+  }
+
+
+  /* BASS */
+
+  if(
+    s===0 ||
+    (
+      s===8 &&
+      bar>=6
+    )
+  ){
+
+    bass(
+      chord[0],
+      time,
+      .065,
+      .58
+    );
+
+
+    lightPad(
+      [
+        49,
+        50,
+        53,
+        52
+      ][bar%4],
+      "blue",
+      .36,
       1050
     );
   }
 
-  /* chord */
 
-  if(s===0){
+  /* SOFT KEYS */
 
-    chord.slice(1).forEach((freq,i)=>{
+  const melodySteps=
+    bar<6
+      ?[7,15]
+      :[3,7,11,15];
 
-      softKey(
-        freq,
-        time+i*.035,
-        .038
-      );
-    });
 
-    const centers=[18,21,34,37];
+  if(
+    melodySteps.includes(s)
+  ){
 
-    cluster(
-      centers[progressionIndex()],
-      progressionIndex()%2
-        ?"violet"
-        :"cyan",
-      .32
-    );
-  }
-
-  /* sparse melody */
-
-  const melodySteps=[3,7,11,15];
-
-  if(melodySteps.includes(s)){
-
-    if(Math.random()>.22){
-
-      const scale=scales.chill;
+    if(
+      Math.random()>.17
+    ){
 
       const idx=
-        (bar*2+
-         melodySteps.indexOf(s))
-        %scale.length;
+        (
+          bar*2+
+          melodySteps.indexOf(s)
+        )%
+        scales.chill.length;
+
 
       softKey(
-        scale[idx],
+        scales.chill[idx],
         time,
-        .05
+        .046
       );
 
+
       const locations=[
-        11,14,25,30,
-        19,38,22,43
+        11,
+        14,
+        25,
+        30,
+        19,
+        38,
+        22,
+        43
       ];
+
 
       lightPad(
         locations[idx],
         idx%3===0
           ?"violet"
           :"cyan",
-        .46,
+        .43,
         1250
       );
     }
   }
 
-  /* tiny hat texture */
 
-  if(s===6 || s===14){
+  /* TEXTURE */
 
-    hat(time,.012);
+  if(
+    bar>=8 &&
+    (
+      s===6 ||
+      s===14
+    )
+  ){
+
+    hat(
+      time,
+      .011
+    );
+
 
     lightPad(
-      s===6?5:2,
+      s===6
+        ?5
+        :2,
       "amber",
-      .12,
+      .11,
       700
     );
   }
+
+
+  /* FLOAT SECTION */
+
+  if(
+    bar>=22 &&
+    bar<28
+  ){
+
+    if(s===0){
+
+      trail(
+        [
+          10,
+          19,
+          28,
+          37
+        ],
+        "violet",
+        90
+      );
+    }
+  }
 }
+
+
+/* =========================================================
+   SCHEDULER
+   ========================================================= */
 
 function schedule(){
 
-  if(!autoPlaying || !ctx)return;
+  if(
+    !autoPlaying ||
+    !ctx
+  )return;
+
 
   const lookAhead=.12;
 
+
   while(
-    nextStepTime <
-    ctx.currentTime+lookAhead
+    nextStepTime<
+    ctx.currentTime+
+    lookAhead
   ){
 
-    if(currentMode==="neon"){
+    updateSectionLabel();
+
+
+    if(
+      currentMode==="neon"
+    ){
+
       neonStep(
         sequenceStep,
         nextStepTime
       );
+
     }else{
+
       chillStep(
         sequenceStep,
         nextStepTime
       );
     }
 
-    nextStepTime+=stepDuration();
+
+    nextStepTime+=
+      stepDuration();
+
+
     sequenceStep++;
   }
 }
+
+
+/* =========================================================
+   START AUTO
+   ========================================================= */
 
 async function startAuto(){
 
   await initAudio();
 
+
   autoPlaying=true;
+
+
   sequenceStep=0;
 
-  nextStepTime=ctx.currentTime+.06;
+  songStartStep=0;
 
-  autoButton.textContent="■ AUTO";
-  autoButton.classList.add("on");
-  statusDot.classList.add("live");
+
+  nextStepTime=
+    ctx.currentTime+.07;
+
+
+  autoButton.textContent=
+    "■ AUTO";
+
+
+  autoButton.classList.add(
+    "on"
+  );
+
+
+  statusDot.classList.add(
+    "live"
+  );
+
 
   clearInterval(timer);
+
 
   timer=setInterval(
     schedule,
@@ -1408,29 +4538,62 @@ async function startAuto(){
   );
 }
 
+
+/* =========================================================
+   STOP AUTO
+   ========================================================= */
+
 function stopAuto(){
 
   autoPlaying=false;
 
+
   clearInterval(timer);
+
   timer=null;
 
-  autoButton.textContent="▶ AUTO";
-  autoButton.classList.remove("on");
-  statusDot.classList.remove("live");
+
+  autoButton.textContent=
+    "▶ AUTO";
+
+
+  autoButton.classList.remove(
+    "on"
+  );
+
+
+  statusDot.classList.remove(
+    "live"
+  );
+
+
+  sectionLabel.textContent=
+    "READY";
 }
 
-autoButton.addEventListener("click",async()=>{
-
-  if(autoPlaying){
-    stopAuto();
-  }else{
-    await startAuto();
-  }
-});
 
 /* =========================================================
-   SAFARI AUDIO RECOVERY
+   AUTO BUTTON
+   ========================================================= */
+
+autoButton.addEventListener(
+  "click",
+  async()=>{
+
+    if(autoPlaying){
+
+      stopAuto();
+
+    }else{
+
+      await startAuto();
+    }
+  }
+);
+
+
+/* =========================================================
+   SAFARI RECOVERY
    ========================================================= */
 
 document.addEventListener(
@@ -1438,19 +4601,25 @@ document.addEventListener(
   async()=>{
 
     if(
-      document.visibilityState==="visible" &&
+      document.visibilityState===
+        "visible" &&
       ctx &&
       autoPlaying
     ){
+
       try{
+
         await ctx.resume();
+
 
         nextStepTime=
           ctx.currentTime+.08;
+
       }catch(e){}
     }
   }
 );
+
 
 window.addEventListener(
   "pageshow",
@@ -1461,31 +4630,52 @@ window.addEventListener(
       autoPlaying &&
       ctx.state!=="running"
     ){
+
       try{
+
         await ctx.resume();
+
+
+        nextStepTime=
+          ctx.currentTime+.08;
+
       }catch(e){}
     }
   }
 );
 
+
 /* =========================================================
-   INITIAL STATE
+   INITIAL MODE
    ========================================================= */
 
 setMode("neon");
 
-/* subtle startup material reveal */
 
-pads.forEach((pad,i)=>{
+/* =========================================================
+   STARTUP REVEAL
+   ========================================================= */
 
-  pad.style.opacity="0";
+pads.forEach(
+  (pad,i)=>{
 
-  setTimeout(()=>{
-    pad.style.transition=
-      "opacity .32s ease, transform .055s ease";
-    pad.style.opacity="1";
-  },i*5);
-});
+    pad.style.opacity="0";
+
+
+    setTimeout(
+      ()=>{
+
+        pad.style.transition=
+          "opacity .32s ease, transform .055s ease";
+
+
+        pad.style.opacity="1";
+
+      },
+      i*5
+    );
+  }
+);
 
 </script>
 </body>
