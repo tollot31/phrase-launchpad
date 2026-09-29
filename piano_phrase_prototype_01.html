@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Piano Phrase Prototype 01</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:#07090d;color:#eef2f5;font-family:system-ui,-apple-system,sans-serif}body{min-height:100svh;display:grid;place-items:center;padding:18px}
+.m{width:min(760px,100%);background:linear-gradient(145deg,#121820,#090d12);border:1px solid #303a45;border-radius:25px;padding:20px;box-shadow:0 30px 90px #000b}
+.k{font-size:10px;letter-spacing:.24em;color:#81909d}.t{font-size:clamp(22px,5vw,38px);font-weight:900;margin:5px 0 18px}.pad{width:100%;height:min(52svh,430px);border:1px solid #3c4855;border-radius:22px;background:radial-gradient(circle at 50% 40%,#25303b,#11171e 55%,#0b0f14);color:#fff;position:relative;overflow:hidden;touch-action:manipulation}.pad:before{content:"";position:absolute;inset:0;background:radial-gradient(circle,#76dfff55,transparent 62%);opacity:0;transition:.12s}.pad.on{border-color:#8ee8ff;box-shadow:0 0 36px #52d9ff35,inset 0 0 45px #52d9ff12}.pad.on:before{opacity:.22}.pad.hit:before{opacity:.8;transition:none}.name{position:absolute;left:20px;bottom:62px;font-size:clamp(30px,8vw,56px);font-weight:950;letter-spacing:.04em}.sub{position:absolute;left:22px;bottom:36px;font-size:11px;letter-spacing:.17em;color:#9aa7b1}.bar{position:absolute;left:22px;top:20px;font:800 12px ui-monospace,monospace;color:#8deaff;letter-spacing:.12em}.meter{position:absolute;left:22px;right:22px;top:48px;height:3px;background:#26313a;border-radius:3px;overflow:hidden}.fill{height:100%;width:0;background:#a5efff}.ctl{display:flex;gap:10px;margin-top:12px}.ctl button{border:1px solid #394550;background:#111820;color:#e8eef2;border-radius:12px;padding:12px 15px;font-weight:800}.info{margin-top:12px;color:#7e8b96;font-size:11px;line-height:1.55}.ov{position:fixed;inset:0;background:#05070af2;display:grid;place-items:center;padding:24px;z-index:5}.box{max-width:430px;text-align:center}.box p{color:#909ca7;line-height:1.65}.box button{width:100%;padding:17px;border-radius:14px;border:1px solid #a9efff;background:#111a22;color:#fff;font-weight:900;letter-spacing:.12em}.hide{display:none}
+</style></head><body>
+<div class="m"><div class="k">PHRASE MATRIX / PERFORMANCE LAB</div><div class="t">PIANO PHRASE PROTOTYPE 01</div>
+<button class="pad" id="pad"><span class="bar" id="bar">READY / 8 BARS</span><span class="meter"><span class="fill" id="fill"></span></span><span class="name">BLUEPRINT 01</span><span class="sub">D MAJOR · 74 BPM · RH + LH PERFORMANCE</span></button>
+<div class="ctl"><button id="stop">STOP</button></div><div class="info">1パッドだけの検証機です。評価対象：①ピアノらしさ ②両手感 ③8小節の呼吸 ④Bar 5–7の高揚 ⑤Bar 8→1の戻り。</div></div>
+<div class="ov" id="ov"><div class="box"><h1>Piano Phrase Prototype 01</h1><p>Performance Score v1.0を1フレーズだけ実装しました。まずBLUEPRINT 01だけを聴いてください。</p><button id="init">INITIALIZE AUDIO</button></div></div>
+<script>
+(()=>{"use strict";
+let ac,master,comp,verb,verbGain,sample=null,playing=false,startT=0,raf=0,timers=[];
+const BPM=74,Q=60/BPM,S=Q/4,BAR=Q*4,TOTAL=BAR*8;
+const midi=n=>{const m=/^([A-G])(#?)(-?\d)$/.exec(n),pc={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[m[1]]+(m[2]?1:0);return 12*(+m[3]+1)+pc};
+const hz=m=>440*Math.pow(2,(m-69)/12);
+const RH=[
+["F#4",null,"A4","B4","A4","F#4","E4",null,"F#4","A4","B4","C#5","A4",null,null,null],
+[null,"F#4","A4","B4","C#5","B4","A4",null,"E5","C#5","B4","A4","F#4",null,null,null],
+["F#4","A4","B4",null,"A4","F#4",null,null,null,"C#5","D5","F#5","E5","C#5","B4",null],
+["G4","B4","D5","F#5","E5","D5","B4",null,null,null,null,null,"C#5","E5","F#5","A5"],
+["F#4","A4","B4","A4","F#4","A4","B4","C#5","D5","C#5","B4","A4","F#4","A4","B4",null],
+["G4","B4","D5","F#5","A5","F#5","E5","D5","C#5","D5","F#5","A5","B5","A5","F#5",null],
+["E5","F#5","A5","B5","C#6",null,"A5","F#5","E5","G5",null,"C#6","B5","A5",null,"E5"],
+["F#5","E5","D5","B4","A4","F#4","E4",null,null,null,null,null,null,"A4","B4","A4"]];
+const LH=[
+[[0,"D2",92],[5,"A2",55],[10,"C#3",63],[12,"A2",48]],
+[[0,"C#3",82],[5,"E3",54],[8,"A2",72],[12,"B2",58],[14,"C#3",66]],
+[[0,"B2",82],[5,["A3","D4"],58],[8,"F#2",73],[13,"A2",51]],
+[[0,"G2",83],[4,"D3",55],[12,"A2",84],[14,["G3","C#4"],61]],
+[[0,"F#2",88],[2,"A2",54],[4,"D3",66],[8,"F#2",82],[10,["A2","D3"],58],[12,"E2",58],[14,"F#2",67]],
+[[0,"G2",86],[6,"D3",54],[9,"B2",58],[12,"D3",60]],
+[[0,"E2",94],[2,"B2",65],[4,"D3",72],[6,"F#3",64],[8,"A2",92],[10,"E3",65],[12,"G3",72],[14,"C#3",67]],
+[[0,"D2",88],[2,"A2",54],[4,"F#3",62]]];
+const CHORDS=[
+[12,["D4","A4","B4","E5","F#5"],82,"up"],
+[28,["A3","E4","G4","C#5"],75,"flat"],
+[60,["A3","G4","C#5","F#5"],88,"up"],
+[76,["D4","A4","B4","E5","F#5"],92,"down"],
+[92,["G3","D4","F#4","A4","B4"],94,"up"],
+[108,["E4","G4","B4","D5","F#5"],98,"flat"],
+[124,["D4","A4","B4","E5","F#5"],88,"up"]];
+function makeSample(){
+ const sr=ac.sampleRate,dur=2.7,b=ac.createBuffer(1,Math.floor(sr*dur),sr),x=b.getChannelData(0);
+ // one struck-string-ish reference waveform at A4; reused by playbackRate
+ const f=440;
+ for(let i=0;i<x.length;i++){let t=i/sr;
+   let env=Math.exp(-t*2.25)*(1-Math.exp(-t*180));
+   let body=Math.sin(2*Math.PI*f*t)+.34*Math.sin(2*Math.PI*f*2.006*t)*Math.exp(-t*1.5)+.15*Math.sin(2*Math.PI*f*3.01*t)*Math.exp(-t*2.6)+.07*Math.sin(2*Math.PI*f*4.03*t)*Math.exp(-t*4.2);
+   let hammer=(Math.random()*2-1)*Math.exp(-t*70)*.075;
+   x[i]=(body*.37+hammer)*env;
+ }
+ return b;
+}
+function impulse(){
+ const len=Math.floor(ac.sampleRate*.85),b=ac.createBuffer(2,len,ac.sampleRate);
+ for(let c=0;c<2;c++){let d=b.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,4)*.22}return b;
+}
+async function init(){
+ ac=new (window.AudioContext||window.webkitAudioContext)();
+ master=ac.createGain();master.gain.value=.58;
+ comp=ac.createDynamicsCompressor();comp.threshold.value=-10;comp.knee.value=8;comp.ratio.value=3;comp.attack.value=.008;comp.release.value=.18;
+ verb=ac.createConvolver();verb.buffer=impulse();verbGain=ac.createGain();verbGain.gain.value=.075;
+ master.connect(comp);comp.connect(ac.destination);master.connect(verb);verb.connect(verbGain);verbGain.connect(comp);
+ sample=makeSample();await ac.resume();document.getElementById("ov").classList.add("hide");
+}
+function note(name,t,vel=78,gate=.78,late=0){
+ const m=midi(name),src=ac.createBufferSource(),g=ac.createGain(),f=ac.createBiquadFilter();
+ src.buffer=sample;src.playbackRate.value=hz(m)/440;
+ f.type="lowpass";f.frequency.value=Math.min(7800,4100+(m-48)*80);f.Q.value=.35;
+ let v=Math.max(.018,(vel/127)*.22),dur=Math.max(.12,S*gate);
+ g.gain.setValueAtTime(.0001,t+late);g.gain.exponentialRampToValueAtTime(v,t+late+.004);g.gain.exponentialRampToValueAtTime(v*.52,t+late+.05);g.gain.exponentialRampToValueAtTime(.0001,t+late+dur);
+ src.connect(f);f.connect(g);g.connect(master);src.start(t+late);src.stop(t+late+Math.min(2.5,dur+.45));
+}
+function chord(names,t,vel,dir){
+ let order=[...names];if(dir==="down")order.reverse();
+ order.forEach((n,i)=>note(n,t,vel-i*2,.48,dir==="flat"?i*.002:i*.006));
+}
+function rhVel(bar,slot){
+ const ranges=[[70,91],[68,88],[66,94],[62,96],[76,101],[72,103],[82,112],[64,96]],r=ranges[bar];
+ let accent=slot%4===0?.82:slot%4===2?.72:.64;
+ return Math.round(r[0]+(r[1]-r[0])*accent);
+}
+function rhOffset(bar,slot){
+ if(bar===6)return -(.004+(slot%4)*.0015);
+ if(bar===7&&slot>=13)return .014;
+ if(slot===0)return -.003;
+ return ((slot%3)-1)*.0025;
+}
+function schedule(){
+ startT=ac.currentTime+.12;
+ for(let b=0;b<8;b++){
+   for(let s=0;s<16;s++){let n=RH[b][s];if(n){let gate=(b===6?.84:(s%4===3?.68:.76));note(n,startT+b*BAR+s*S,rhVel(b,s),gate,rhOffset(b,s));}}
+   for(const [s,n,v] of LH[b]){let t=startT+b*BAR+s*S+.004;if(Array.isArray(n))n.forEach((q,i)=>note(q,t,v-i*3,.72,i*.009));else note(n,t,v,.82);}
+ }
+ for(const [slot,n,v,d] of CHORDS)chord(n,startT+slot*S,v,d);
+}
+function play(){
+ if(playing)return;playing=true;pad.classList.add("on");schedule();animate();
+ timers.push(setTimeout(()=>{playing=false;pad.classList.remove("on");bar.textContent="COMPLETE / TAP TO REPLAY";fill.style.width="100%"},(TOTAL+.3)*1000));
+}
+function animate(){
+ if(!playing)return;let e=ac.currentTime-startT;if(e>=0){let b=Math.min(7,Math.floor(e/BAR)),p=Math.max(0,Math.min(1,e/TOTAL));bar.textContent=`BAR ${b+1} / 8`;fill.style.width=(p*100)+"%";pad.classList.toggle("hit",(Math.floor(e/S)%4)===0)}
+ raf=requestAnimationFrame(animate);
+}
+function stop(){
+ playing=false;timers.forEach(clearTimeout);timers=[];cancelAnimationFrame(raf);pad.classList.remove("on","hit");bar.textContent="STOPPED / TAP TO PLAY";fill.style.width="0%";
+ // recreate context graph is avoided; scheduled sources will decay at conservative gain
+}
+document.getElementById("init").onclick=init;pad.onclick=async()=>{if(ac.state!=="running")await ac.resume();play()};document.getElementById("stop").onclick=stop;
+})();
+</script></body></html>
